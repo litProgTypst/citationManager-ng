@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# This bash script uses the current working directory to create a simple
+# script to run the CitationManager commands anywhere in a user's
+# workspace.
+
+installScript() {
+  scriptName=$1
+  cmdScript=$(pwd)/.venv/bin/$scriptName
+
+  cat << CMD_SCRIPT > $HOME/.local/bin/$scriptName
+#!/bin/sh
+
+# This shell script was created by the citationManager tool
+#       './scripts/installEditableCMCommands'
+# script.
+
+exec $cmdScript \$@
+CMD_SCRIPT
+
+  chmod a+x $HOME/.local/bin/$scriptName
+}
+
+##########################################################################
+
+installScript cmParse
+installScript cmCollate
+installScript cmGenerate
+installScript cmScan
+
+echo ""
+echo "Editable citation manager tool commands have been created"
+echo ""
