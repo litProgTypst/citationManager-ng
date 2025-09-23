@@ -5,6 +5,7 @@ import yaml
 # import pybtex
 
 from cmTools.config import addConfigurationArgs, loadConfig
+from cmTools.pybtex import loadBibLaTeXFile
 
 def parseArgs() :
   parser = argparse.ArgumentParser(
@@ -31,4 +32,7 @@ def parseArgs() :
 def cli() :
   print("Hello from the parser!")
   config = loadConfig(parseArgs())
-  print(yaml.dump(config))
+  bibLaTeX = loadBibLaTeXFile(config['bibtex'])
+  for anEntryKey in bibLaTeX.entries :
+    anEntry = bibLaTeX.entries[anEntryKey]
+    print(yaml.dump(anEntry))
