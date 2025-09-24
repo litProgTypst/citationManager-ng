@@ -56,6 +56,10 @@ We will write a script which loads and parses the BibLaTeX "library" of
 current references, collates reference variants and collates with existing
 references.
 
+We will use the [Pybtex!](https://pybtex.org/) Python interface
+([docs](https://docs.pybtex.org/index.html)) to parse to BibLaTeX
+"library".
+
 The result will be "edited" using Micro as a simple YAML file.
 
 The results of this editing will be further collated. 
