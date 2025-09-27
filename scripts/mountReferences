@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This bash script mounts my remote TiddlyWiki References on my local
+# machine using sshFS
+
+mkdir -p remoteWiki
+
+useKeyPLabs
+
+sshfs plabs@notebook.perceptisys.co.uk:/data/plabs/tiddlyserver/wikis/references remoteWiki
+

@@ -9,6 +9,8 @@ dependencies = [
     "pyyaml>=6.0",
     "pybtex>=0.24.0",
     "types-PyYAML>=6.0.12.20250915",
+    "wxpython>=4.2.3",
+    "types-wxpython>=0.9.7",
 ]
 requires-python = ">=3.10"
 license = {text = "Apache2.0"}

@@ -1,0 +1,311 @@
+# This YAML file contains two objects.
+#
+#   The order ARRAY is an ordered list of the BibLaTeX fields in the
+#   ORDER in which they should be displayed to the ueser in a citation.
+#
+#   The outputMap HASH is a sorted hashmap of the text which the
+#   citation pages should use for a given field.
+#
+
+order:
+#
+# We start with the most important fields which are HARD wired and so
+# do not need to be in this array
+#
+- entrytype
+- citekey
+- ids
+- creationid
+- crossref
+- author
+- authortype
+- bookauthor
+- editor
+- editora
+- editoratype
+- editorb
+- editorbtype
+- editorc
+- editorctype
+- editortype
+- booksubtitle
+- booktitle
+- booktitleaddon
+- date
+- doi
+- eid
+- eprint
+- eprintclass
+- eprinttype
+- file
+- indexsorttitle
+- indextitle
+- isan
+- isbn
+- ismn
+- isrn
+- issn
+#
+# Now we list the fairly standard and heavily used fields in an order
+# which makes 'sense'
+#
+- annotation
+- annote
+- chapter
+- edition
+- eventdate
+- eventtitle
+- eventtitleaddon
+- institution
+- issue
+- issuesubtitle
+- issuetitle
+- journal
+- journalsubtitle
+- journaltitle
+- keywords
+- location
+- mainsubtitle
+- maintitle
+- maintitleaddon
+- month
+- note
+- number
+- organization
+- pages
+- pagetotal
+- part
+- pdf
+- primaryclass
+- publisher
+- pubstate
+- related
+- relatedstring
+- relatedtype
+- series
+- subtitle
+- title
+- titleaddon
+- type
+- url
+- urldate
+- venue
+- year
+- year-date
+#
+# Now we list all of the other (rarely used) fields in alphabetical
+# order
+#
+- abstract
+- addendum
+- address
+- afterword
+- annotator
+- archiveprefix
+- bookpagination
+- commentator
+- entryset
+- entrysubtype
+- execute
+- foreword
+- gender
+- holder
+- howpublished
+- introduction
+- iswc
+- key
+- label
+- langid
+- langidopts
+- language
+- library
+- list[a–f]
+- name[a–c]
+- name[a–c]type
+- nameaddon
+- options
+- origdate
+- origlanguage
+- origlocation
+- origpublisher
+- origtitle
+- pagination
+- presort
+- reprinttitle
+- school
+- shortauthor
+- shorteditor
+- shorthand
+- shorthandintro
+- shortjournal
+- shortseries
+- shorttitle
+- sortkey
+- sortname
+- sortshorthand
+- sorttitle
+- sortyear
+- translator
+- user[a–f]
+- verb[a–c]
+- version
+- volume
+- volumes
+- xdata
+- xref
+
+outputMap:
+  abstract:
+  addendum:
+  address:
+  afterword:
+  annotation:
+  annotator:
+  annote:
+  archiveprefix:
+  author:
+    text: Authors
+    include: citeNames
+  author-editor:
+  authortype:
+  bookauthor:
+    include: citeNames
+  bookpagination:
+  booksubtitle:
+  booktitle:
+  booktitleaddon:
+  chapter:
+  citekey:
+    include: citeCiteKey
+  entrytype:
+  commentator:
+    include: citeNames
+  creationid:
+  crossref:
+    include: citeCiteKeys
+  date:
+  doi:
+    include: citeDoi
+  edition:
+  editor:
+    include: citeNames
+  editora:
+    include: citeNames
+  editoratype:
+  editorb:
+    include: citeNames
+  editorbtype:
+  editorc:
+    include: citeNames
+  editorctype:
+  editortype:
+  eid:
+  entryset:
+  entrysubtype:
+  eprint:
+  eprintclass:
+  eprinttype:
+  eventdate:
+  eventtitle:
+  eventtitleaddon:
+  execute:
+  file:
+  foreword:
+  gender:
+  holder:
+    include: citeNames
+  howpublished:
+  ids:
+    include: citeCiteKeys
+  indexsorttitle:
+  indextitle:
+  institution:
+  introduction:
+  isan:
+  isbn:
+    include: citeIsbn
+  ismn:
+  isrn:
+  issn:
+  issue:
+  issuesubtitle:
+  issuetitle:
+  iswc:
+  journal:
+  journalsubtitle:
+  journaltitle:
+  key:
+  keywords:
+  label:
+  langid:
+  langidopts:
+  language:
+  library:
+  'list[a–f]':
+  location:
+  mainsubtitle:
+  maintitle:
+  maintitleaddon:
+  month:
+    include: citeMonth
+  'name[a–c]':
+  'name[a–c]type':
+  nameaddon:
+  note:
+  number:
+  options:
+  organization:
+  origciteid:
+  origdate:
+  origlanguage:
+  origlocation:
+  origpublisher:
+  origtitle:
+  pages:
+  pagetotal:
+  pagination:
+  part:
+  pdf:
+  presort:
+  primaryclass:
+  publisher:
+  pubstate:
+  related:
+    include: citeCiteKeys
+  relatedstring:
+  relatedtype:
+  reprinttitle:
+  school:
+  series:
+  shortauthor:
+  shorteditor:
+  shorthand:
+  shorthandintro:
+  shortjournal:
+  shortseries:
+  shorttitle:
+  sortkey:
+  sortname:
+  sortshorthand:
+  sorttitle:
+  sortyear:
+  subtitle:
+  title:
+  titleaddon:
+  translator:
+    include: citeNames
+  type:
+  url:
+    include: citeUrls
+  urldate:
+  'user[a–f]':
+  venue:
+  'verb[a–c]':
+  version:
+  volume:
+  volumes:
+  xdata:
+  xref:
+    include: citeCiteKeys
+  year:
+  year-date:

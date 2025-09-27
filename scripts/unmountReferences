@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# This bash script mounts my remote TiddlyWiki References on my local
+# machine using sshFS
+
+fusermount -u remoteWiki
+

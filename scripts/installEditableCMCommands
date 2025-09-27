@@ -4,6 +4,27 @@
 # script to run the CitationManager commands anywhere in a user's
 # workspace.
 
+runScript() {
+  scriptName=$1
+  pythonPath=$(pwd)/.venv/bin/python
+  wxLibPath=$(pwd)/.venv/lib/python3.13/site-packages/wx
+  cmdScript=$(pwd)/cmTools/${scriptName}.py
+
+  cat << CMD_SCRIPT > $(pwd)/.venv/bin/$scriptName
+#!/bin/sh
+
+# This shell script was created by the citationManager tool
+#       './scripts/installEditableCMCommands'
+# script.
+
+export LD_LIBRARY_PATH=$wxLibPath:${LD_LIBRARY_PATH}
+
+exec $pythonPath $cmdScript
+CMD_SCRIPT
+
+  chmod a+x $(pwd)/.venv/bin/$scriptName
+}
+
 installScript() {
   scriptName=$1
   cmdScript=$(pwd)/.venv/bin/$scriptName
@@ -25,6 +46,8 @@ CMD_SCRIPT
 
 installScript cmParse
 installScript cmCollate
+runScript cmEdit
+installScript cmEdit
 installScript cmGenerate
 installScript cmScan
 
