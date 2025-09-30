@@ -1,6 +1,13 @@
 
+import argparse
+import sys
+import yaml
 
 import wx
+
+from cmTools.config import addConfigurationArgs, loadConfig
+# from cmTools.pybtex import loadBibLaTeXFile
+
 
 #######################################################
 # Define the structure of editing Author BibLaTeX
@@ -21,7 +28,9 @@ class CitationTab(wx.Panel):
 #######################################################
 # Structure the App's MainFrame
 class MainFrame(wx.Frame):
-  def __init__(self):
+  def __init__(self, config):
+    self.config = config
+    print(yaml.dump(config))
     wx.Frame.__init__(
       self, None, title="Citation Manager BibLaTeX Editor"
     )
@@ -49,9 +58,32 @@ class MainFrame(wx.Frame):
     p.SetSizer(sizer)
 
 #######################################################
-# Run the app if called as a main
-if __name__ == "__main__":
+# Provide the command line interface
+
+def parseArgs() :
+  parser = argparse.ArgumentParser(
+    prog='cmEdit',
+    description="""
+      Edit a BibLaTeX YAML file to update a citation
+      or authors.
+    """,
+    epilog='Text at the bottom of help'
+  )
+
+  addConfigurationArgs(parser)
+
+  parser.add_argument('biblatexYaml')
+
+  return vars(parser.parse_args())
+
+def cli() :
+  print(yaml.dump(sys.argv))
+  config = loadConfig(parseArgs())
   app = wx.App()
-  MainFrame().Show()
+  MainFrame(config).Show()
   app.MainLoop()
 
+#######################################################
+# Run the app if called as a main
+if __name__ == "__main__":
+  cli()

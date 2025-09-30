@@ -18,8 +18,7 @@ runScript() {
 # script.
 
 export LD_LIBRARY_PATH=$wxLibPath:${LD_LIBRARY_PATH}
-
-exec $pythonPath $cmdScript
+exec $pythonPath -m cmTools.${scriptName} \$*
 CMD_SCRIPT
 
   chmod a+x $(pwd)/.venv/bin/$scriptName

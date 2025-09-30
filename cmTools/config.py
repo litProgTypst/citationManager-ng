@@ -1,5 +1,6 @@
 
 import os
+from subprocess import run
 import sys
 import yaml
 
@@ -35,6 +36,23 @@ def loadConfig(args, verbose=False) :
 
   if 'refsDir' not in config :
     die("ERROR: no references directory has been configured!")
+
+  # THIS IS A VERY CRUDE way to check the SSHFS FUSE mounted remote
+  # directory for bibLatex YAML FILES
+  #
+  # IT MUST be run as a shell command since anything else does not "see"
+  # the FUSE mounted files.
+  #
+  result = run(
+    f"ls {config['refsDir']}",
+    shell=True, capture_output=True
+  )
+  files = result.stdout.decode('utf-8')
+  if not files :
+    print("No files found....")
+    print(f"  at {config['refsDir']}")
+    print("  have you mounted the remote references?")
+    sys.exit(1)
 
   if 'entryTypeMapping' not in config :
     config['entryTypeMapping'] = {}
