@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!.venv/bin/python
 
 from pathlib import Path
 import yaml
@@ -8,8 +8,11 @@ remoteDir = Path('remoteWiki')
 for aYamlFile in remoteDir.glob("**/*_bibLatex.yaml") :
   print(f"Working on {aYamlFile}")
   theYaml = yaml.safe_load(aYamlFile.read_text())
-  if 'biblatex' not in theYaml :
+  if 'biblatex' in theYaml :
+    theBibLatex = theYaml['biblatex']
     print("  fixing")
-    theYaml = { 'biblatex' : theYaml }
+    theYaml = { 'citationBiblatex' : theBibLatex }
+    if 'cleanname' in theBibLatex :
+      theYaml = { 'authorBiblatex' : theBibLatex }
     aYamlFile.write_text(yaml.dump(theYaml))
 

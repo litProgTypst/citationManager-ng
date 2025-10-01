@@ -6,6 +6,7 @@ import yaml
 import wx
 
 from cmTools.config import addConfigurationArgs, loadConfig
+from cmTools.bibLaTeXYaml import loadBibLatex
 # from cmTools.pybtex import loadBibLaTeXFile
 
 
@@ -28,7 +29,7 @@ class CitationTab(wx.Panel):
 #######################################################
 # Structure the App's MainFrame
 class MainFrame(wx.Frame):
-  def __init__(self, config):
+  def __init__(self, config, citation, authors):
     self.config = config
     print(yaml.dump(config))
     wx.Frame.__init__(
@@ -79,8 +80,9 @@ def parseArgs() :
 def cli() :
   print(yaml.dump(sys.argv))
   config = loadConfig(parseArgs())
+  citation, authors = loadBibLatex(config)
   app = wx.App()
-  MainFrame(config).Show()
+  MainFrame(config, citation, authors).Show()
   app.MainLoop()
 
 #######################################################
