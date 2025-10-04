@@ -28,13 +28,5 @@ def loadBibLatex(config) :
 
   bibLatexYaml = loadBibLatexYamlFile(yamlFiles[0])
 
-  citation = None
-  authors  = []
-
-  if 'citationBiblatex' in bibLatexYaml :
-    citation = bibLatexYaml['citationBiblatex']
-  elif 'authorBiblatex' in bibLatexYaml :
-    authors.append(bibLatexYaml['authorBiblatex'])
-
-  return (citation, authors)
+  return bibLatexYaml
 

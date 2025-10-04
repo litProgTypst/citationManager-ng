@@ -30,7 +30,9 @@ def loadConfig(args, verbose=False) :
   with open(args['config']) as confFile :
     config = yaml.safe_load(confFile.read())
 
-  config.update(args)
+  for aKey, aValue in args.items() :
+    if aValue : config[aKey] = aValue
+
   if 'verbose' not in config :
     config['verbose'] = verbose
 
@@ -56,6 +58,9 @@ def loadConfig(args, verbose=False) :
 
   if 'biblatexFieldMapping' not in config :
     config['biblatexFieldMapping'] = {}
+
+  if 'width'  not in config : config['width'] = 600
+  if 'height' not in config : config['height'] = 600
 
   if config['verbose'] :
     print("-------------------------------------------------")
