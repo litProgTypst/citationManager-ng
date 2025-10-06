@@ -3,20 +3,24 @@ from pathlib import Path
 import sys
 import yaml
 
+from cmTools.config import Config
+
 # We collect all of the methods which load/save our BibLaTeX formated YAML
 
 def loadBibLatexYamlFile(aPath) :
   return yaml.safe_load(aPath.read_text())
 
-def loadBibLatex(config) :
-  refsDir = Path(config['refsDir']).expanduser()
-  newRefsDir = Path(config['newRefsDir']).expanduser()
-
-  bibLatexTag = Path(config['biblatexYaml']).name.split('_')[0]
+def loadBibLatex(biblatexToLoad) :
+  config = Config()
+  bibLatexTag = Path(biblatexToLoad).name.split('_')[0]
 
   yamlFiles = []
-  yamlFiles.extend(list(refsDir.rglob(f'*{bibLatexTag}_bibLatex.yaml')))
-  yamlFiles.extend(list(newRefsDir.rglob(f'*{bibLatexTag}_bibLatex.yaml')))
+  yamlFiles.extend(
+    list(config.refsDir.rglob(f'*{bibLatexTag}_*Biblatex.yaml'))
+  )
+  yamlFiles.extend(
+    list(config.newRefsDir.rglob(f'*{bibLatexTag}_*Biblatex.yaml'))
+  )
 
   if not yamlFiles :
     print(f"ERROR: could not find: {bibLatexTag}")

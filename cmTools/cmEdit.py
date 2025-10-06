@@ -7,7 +7,7 @@ import yaml
 import wx
 import wx.propgrid as wxpg
 
-from cmTools.config import addConfigurationArgs, loadConfig
+from cmTools.config import addConfigurationArgs, Config
 from cmTools.bibLaTeXYaml import loadBibLatex
 # from cmTools.pybtex import loadBibLaTeXFile
 
@@ -21,86 +21,6 @@ from cmTools.bibLaTeXYaml import loadBibLatex
 
 # Extract `getPossiblePeopleFromSurname` from
 # `tools/cmTools/biblatexTools.py` and adapt to new tiddlers.
-
-# def getPersonRole(anAuthorRole) :
-#   aRole = 'unknown'
-#   anAuthor = anAuthorRole
-#   if -1 < anAuthorRole.find(':') :
-#     theParts = anAuthorRole.split(':')
-#     aRole = theParts[0].strip()
-#     anAuthor = theParts[1].strip()
-#   return (anAuthor, aRole)
-#
-# def normalizeAuthor(anAuthorRole) :
-#   anAuthor, aRole = getPersonRole(anAuthorRole)
-#   authorDict = {
-#     'cleanname' : anAuthor,
-#     'surname'   : '',
-#     'firstname' : '',
-#     'von'       : '',
-#     'jr'        : '',
-#     'email'     : '',
-#     'institute' : '',
-#     'url'       : []
-#   }
-#
-#   # Guess the parts of an author
-#   if ',' in anAuthor :
-#     nameParts = anAuthor.split(',')
-#     if nameParts :
-#       surname = nameParts[0].strip()
-#       surname, vonPart, jrPart = expandSurname(surname)
-#       firstname = ""
-#       if 1 < len(nameParts) :
-#         firstname = nameParts[1].replace('.', ' ').strip()
-#   else :
-#     surname = guessSurname(anAuthor)
-#     firstname = anAuthor.replace(surname, '').strip()
-#     vonPart = ''
-#     jrPart = ''
-#
-#   cleanName = f" {vonPart} {surname} {jrPart}, {firstname}"
-#   cleanName = removeMultipleSpaces.sub(" ", cleanName)
-#   cleanName = removeSpacesBeforeComma.sub(",", cleanName)
-#   cleanName = cleanName.strip()
-#   authorDict['cleanname'] = cleanName
-#   authorDict['surname']   = surname
-#   authorDict['firstname'] = firstname
-#   authorDict['von']       = vonPart
-#   authorDict['jr']        = jrPart
-#
-#   return authorDict
-
-# def guessSurname(aPerson) :
-#   surname = None
-#   if ',' in aPerson :
-#     surname = aPerson.split(',')[0]
-#   else :
-#     surname = aPerson.split()[-1]
-#   return surname
-#
-# def expandSurname(surname) :
-#   surnameParts = surname.split()
-#   vonPart = ""
-#   jrPart  = ""
-#   if surnameParts and 1 < len(surnameParts) :
-#     if 0 < len(surnameParts) : vonPart = surnameParts.pop(0)
-#     if 0 < len(surnameParts) : surname = surnameParts.pop(0)
-#     if 0 < len(surnameParts) : jrPart  = surnameParts.pop(0)
-#   return (surname, vonPart, jrPart)
-
-# def getPossiblePeopleFromSurname(surname) :
-#   surname, vonPart, jrPart = expandSurname(surname)
-#   print(f"Searching for author: [{surname}] ({vonPart}) ({jrPart})")
-#   authorDir = Path('author')
-#   possibleAuthors = []
-#   for anAuthor in authorDir.glob(f'*/*{surname}*') :
-#     anAuthor = str(anAuthor.name).removesuffix('.md')
-#     possibleAuthors.append(anAuthor)
-#   possibleAuthors.append("new")
-#   possibleAuthors.sort()
-#   return possibleAuthors
-
 
 # TEST pass **Biblatex keys through to allow for multiple variants to be
 # amalgamated
@@ -125,9 +45,8 @@ from cmTools.bibLaTeXYaml import loadBibLatex
 #######################################################
 # Check people dialogs
 class ChooseAPersonDialog(wx.Dialog) :
-  def __init__(self, parent, personType, peopleList, config) :
+  def __init__(self, parent, personType, peopleList) :
     self.peopleList = peopleList
-    self.config = config
 
     wx.Dialog.__init__(
       self, parent, -1, f"Choose a person to use as {personType}"
@@ -143,9 +62,8 @@ class ChooseAPersonDialog(wx.Dialog) :
     self.SetSizer(hBox)
 
 class ChooseAPersonToCheckDialog(wx.Dialog) :
-  def __init__(self, parent, peopleDict, config) :
+  def __init__(self, parent, peopleDict) :
     self.peopleDict = peopleDict
-    self.config = config
 
     wx.Dialog.__init__(
       self, parent, -1, "Choose a person to check"
@@ -178,11 +96,10 @@ class ChooseAPersonToCheckDialog(wx.Dialog) :
 
 class PropertyEditor(wx.Panel) :
   def __init__(
-    self, parent, properties, title, config
+    self, parent, properties, title
   ) :
     self.properties = properties
     self.title = title
-    self.config = config
     self.changedProperties = {}
     wx.Panel.__init__(self, parent)
 
@@ -207,10 +124,11 @@ class PropertyEditor(wx.Panel) :
     self.SetSizer(vBox)
 
   def createAPropertyGrid(self, properties) :
+    config = Config()
     self.properyGrid = pg = wxpg.PropertyGrid(
       self, size=wx.Size(
-        int(int(self.config['width'])  * 0.95),
-        int(int(self.config['height']) * 0.9)
+        int(int(config.width)  * 0.95),
+        int(int(config.height) * 0.9)
       )
     )
     pg.Bind(wxpg.EVT_PG_CHANGED, self.OnPropGridChange)
@@ -255,14 +173,13 @@ class PropertyEditor(wx.Panel) :
 # Define the structure of editing Author BibLaTeX
 class PersonEditor(PropertyEditor):
   def __init__(
-    self, parent, personName, bibLatex, config
+    self, parent, personName, bibLatex
   ):
     self.personName = personName
     self.personBiblatex = bibLatex
     super().__init__(
-      parent, personName, bibLatex,
-      f"Content for the {personName}",
-      config
+      parent, bibLatex,
+      f"Content for the {personName}"
     )
 
   def collectPropertyGrids(self) :
@@ -290,14 +207,13 @@ class PersonEditor(PropertyEditor):
 # Define the structure of editing Citation BibLaTeX
 class CitationEditor(PropertyEditor):
   def __init__(
-    self, parent, citationKey, citationBiblatex, config
+    self, parent, citationKey, citationBiblatex
   ):
     self.citationKey = citationKey
     self.citationBiblatex = citationBiblatex
     super().__init__(
       parent, citationBiblatex,
-      f"Content for the {citationKey}",
-      config
+      f"Content for the {citationKey}"
     )
 
   def collectPropertyGrids(self) :
@@ -331,7 +247,7 @@ class CitationEditor(PropertyEditor):
     biblatex = self.citationBiblatex['citationBiblatex']
     peopleToCheck['author'] = copy.deepcopy(biblatex['author'])
     print(yaml.dump(peopleToCheck))
-    captcd = ChooseAPersonToCheckDialog(self, peopleToCheck, self.config)
+    captcd = ChooseAPersonToCheckDialog(self, peopleToCheck)
     if captcd.ShowModal() == wx.ID_OK :
       print("DONE OK")
 
@@ -368,9 +284,9 @@ class CitationEditorDialog(wx.Dialog) :
 #######################################################
 # Structure the App's MainFrame
 class MainFrame(wx.Frame):
-  def __init__(self, config, bibLatex):
-    self.config = config
-    print(yaml.dump(config))
+  def __init__(self, bibLatex):
+    config = Config()
+    config.print()
     wx.Frame.__init__(
       self, None, title="Citation Manager BibLaTeX Editor"
     )
@@ -383,19 +299,19 @@ class MainFrame(wx.Frame):
     if 'citationBiblatex' in bibLatex :
       citationEditor = CitationEditor(
         p, bibLatex['citationBiblatex']['citekey'],
-        bibLatex, config
+        bibLatex
       )
       sizer.Add(citationEditor, proportion=2, flag=wx.EXPAND)
     elif 'authorBiblatex' in bibLatex :
       personEditor = PersonEditor(
         p, bibLatex['authorBiblatex']['cleanname'],
-        bibLatex, config
+        bibLatex
       )
       sizer.Add(personEditor, proportion=2, flag=wx.EXPAND)
 
     # Organizing notebook layout using a sizer:
     self.SetSize(wx.Size(
-      int(config['width']), int(config['height'])
+      int(config.width), int(config.height)
     ))
     # self.Centre()
     # self.Maximize()
@@ -432,14 +348,16 @@ def parseArgs() :
 
 def cli() :
   print(yaml.dump(sys.argv))
-  config = loadConfig(parseArgs())
-  bibLatex = loadBibLatex(config)
+  config = Config()
+  config.loadConfig(parseArgs())
+  config.print()
+  bibLatex = loadBibLatex(config.biblatexYaml)
   if bibLatex : print(yaml.dump(bibLatex))
 
   # sys.exit(1)
 
   app = wx.App()
-  MainFrame(config, bibLatex).Show()
+  MainFrame(bibLatex).Show()
   app.MainLoop()
 
 #######################################################
