@@ -10,19 +10,14 @@ import wx.propgrid as wxpg
 from cmTools.config import addConfigurationArgs, Config
 from cmTools.bibLaTeXYaml import loadBibLatex
 from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
-  getPossiblePeopleFromName
+  getPossiblePeopleFromName, guessAuthorBiblatex, loadAuthorBiblatex
 # from cmTools.pybtex import loadBibLaTeXFile
 
 #######################################################
 # TODO
 
-# TEST a PersonPropertyEditorDialog (modal)
-
 # Check `ui/citationManager/updateReference` for details on how to
 # find/extract citation structure.
-
-# Extract `getPossiblePeopleFromSurname` from
-# `tools/cmTools/biblatexTools.py` and adapt to new tiddlers.
 
 # TEST pass **Biblatex keys through to allow for multiple variants to be
 # amalgamated
@@ -30,88 +25,11 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
 # TEST Move notebook into the use of the PropertyGrid to allow editing of
 # multiple variants.
 
-# Add a checkPeople button which walks through a series of SingleChoice
-# dialogs. 1) to list all people as in citation, 2) for each person allow
-# the selection of a KNOWN person OR NEW person. 3) If a new person is
-# selected, create a custom modal dialog with a PersonPropertyGrid to edit
-# the new person's details.
-
 # Add an updateCitationKey button which takes the given people and year
 # and title and creates a trial citeKey, which can then be edited by the
 # user in a dialog.
 
 # Add a getUrl button to download and archive a paper from its url.
-
-# Add exit button (or make SaveChanges exit)
-
-#######################################################
-# Check people dialogs
-class ChooseAPersonDialog(wx.Dialog) :
-  def __init__(self, parent, personType, peopleList) :
-    self.peopleList = peopleList
-
-    wx.Dialog.__init__(
-      self, parent, -1, f"Choose a person to use as {personType}"
-    )
-
-    self.choices = []
-    for aPerson in peopleList :
-      self.choices.append(aPerson)
-
-    vBox = wx.BoxSizer(wx.VERTICAL)
-    hBoxList = wx.BoxSizer(wx.HORIZONTAL)
-    self.listBox = wx.ListBox(
-      self, choices=self.choices, style=wx.LB_SINGLE
-    )
-    hBoxList.Add(self.listBox)
-    vBox.Add(hBoxList, 2, flag=wx.EXPAND)
-    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
-    checkButton = wx.Button(self, -1, label="Update person")
-    checkButton.Bind(wx.EVT_BUTTON, self.updatePerson)
-    hBoxButtons.Add(checkButton)
-    vBox.AddSpacer(10)
-    vBox.Add(hBoxButtons)
-    self.SetSizer(vBox)
-
-  def updatePerson(self, cmdEvt) :
-    selectionIndx = self.listBox.GetSelection()
-    if -1 < selectionIndx :
-      aPerson = self.choices[selectionIndx]
-      print(f"Updating person: {aPerson}")
-
-class ChooseAPersonToCheckDialog(wx.Dialog) :
-  def __init__(self, parent, peopleDict) :
-    self.peopleDict = peopleDict
-
-    wx.Dialog.__init__(
-      self, parent, -1, "Choose a person to check"
-    )
-
-    self.choices = createPersonRoleList(peopleDict)
-
-    vBox = wx.BoxSizer(wx.VERTICAL)
-    hBoxList = wx.BoxSizer(wx.HORIZONTAL)
-    self.listBox = wx.ListBox(self, choices=self.choices, style=wx.LB_SINGLE)
-    hBoxList.Add(self.listBox)
-    vBox.Add(hBoxList, 2, flag=wx.EXPAND)
-    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "Done"))
-    checkButton = wx.Button(self, -1, label="Check Person")
-    checkButton.Bind(wx.EVT_BUTTON, self.checkPerson)
-    hBoxButtons.Add(checkButton)
-    vBox.AddSpacer(10)
-    vBox.Add(hBoxButtons)
-    self.SetSizer(vBox)
-
-  def checkPerson(self, cmdEvt) :
-    selectionIndx = self.listBox.GetSelection()
-    if -1 < selectionIndx :
-      aPerson, aRole = getPersonRole(self.choices[selectionIndx])
-      print(f"Checking a person: {aPerson} as {aRole}")
-      peopleList = getPossiblePeopleFromName(aPerson)
-      with ChooseAPersonDialog(self, aRole, peopleList) as dlg :
-        dlg.ShowModal()
 
 #######################################################
 # Define the generic propery grid editor
@@ -132,17 +50,9 @@ class PropertyEditor(wx.Panel) :
     pg = self.collectPropertyGrids()
     hBoxProps.Add(pg)
 
-    self.hBoxButtons = hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    saveButton = wx.Button(self, label="Save changes")
-    saveButton.Bind(wx.EVT_BUTTON, self.SaveChanges)
-    hBoxButtons.Add(saveButton)
-
-    self.addAdditionalButtons()
-
     vBox = wx.BoxSizer(wx.VERTICAL)
     vBox.Add(hBoxLabel, proportion=2, flag=wx.EXPAND)
     vBox.Add(hBoxProps, proportion=2, flag=wx.EXPAND)
-    vBox.Add(hBoxButtons)
     self.SetSizer(vBox)
 
   def createAPropertyGrid(self, properties) :
@@ -182,14 +92,8 @@ class PropertyEditor(wx.Panel) :
       properties[aKey] = aValue
     return properties
 
-  def SaveChanges(self, cmdEvt) :
-    self.saveChangesCallback(
-      self.saveChangesObject,
-      self.getUpdatedProperties()
-    )
-
-  def addAdditionalButtons(self) :
-    pass
+  def saveChanges(self) :
+    return {}
 
 #######################################################
 # Define the structure of editing Author BibLaTeX
@@ -220,7 +124,7 @@ class PersonEditor(PropertyEditor):
       nb.AddPage(aPersonPropGrid, aPersonKey)
     return nb
 
-  def SaveChanges(self, cmdEvt) :
+  def saveChanges(self) :
     newAuthorBiblatex = self.getUpdatedProperties()
     print("SAVING CHANGES:")
     print(yaml.dump(newAuthorBiblatex))
@@ -252,56 +156,174 @@ class CitationEditor(PropertyEditor):
       nb.AddPage(aCitePropGrid, aCiteKey)
     return nb
 
-  def SaveChanges(self, cmdEvt) :
+  def saveChanges(self) :
     newCitationBiblatex = self.getUpdatedProperties()
     print("SAVING CHANGES:")
     print(yaml.dump(newCitationBiblatex))
 
-  def addAdditionalButtons(self) :
-    hBoxButtons = self.hBoxButtons
-    checkPeopleButton = wx.Button(self, label="Check people")
-    checkPeopleButton.Bind(wx.EVT_BUTTON, self.CheckPeople)
-    hBoxButtons.Add(checkPeopleButton)
-
-  def CheckPeople(self, cmdEvt) :
-    print("Checking people!")
+  def getPeopleToCheck(self) :
     peopleToCheck = {}
     biblatex = self.citationBiblatex['citationBiblatex']
     peopleToCheck['author'] = copy.deepcopy(biblatex['author'])
     print(yaml.dump(peopleToCheck))
-    captcd = ChooseAPersonToCheckDialog(self, peopleToCheck)
-    if captcd.ShowModal() == wx.ID_OK :
-      print("DONE OK")
+    return peopleToCheck
 
 #######################################################
-# PersonEditorDialog
+# Dialogs
+#######################################################
+
+#######################################################
+# PersonEditor dialogs
 class PersonEditorDialog(wx.Dialog) :
   def __init__(
-    self, parent, personName, bibLatex, config
+    self, parent, personName, bibLatex
   ) :
     wx.Dialog.__init__(
       self, parent, -1, personName
     )
 
-    pe = PersonEditor(self, personName, bibLatex, config)
-    hBox = wx.BoxSizer(wx.HORIZONTAL)
-    hBox.Add(pe)
-    self.SetSizer(hBox)
+    vBox = wx.BoxSizer(wx.VERTICAL)
+
+    self.personEditor = PersonEditor(self, personName, bibLatex)
+    hBoxEditor = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxEditor.Add(self.personEditor)
+    vBox.Add(hBoxEditor, proportion=2, flag=wx.EXPAND)
+
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+    saveButton = wx.Button(self, label="Save changes")
+    saveButton.Bind(wx.EVT_BUTTON, self.SaveChanges)
+    hBoxButtons.Add(saveButton)
+    vBox.Add(hBoxButtons)
+
+    self.SetSizer(vBox)
+
+    config = Config()
+    self.SetSize(wx.Size(
+      int(config.width), int(config.height)
+    ))
+
+  def SaveChanges(self, cmdEvt) :
+    self.personEditor.saveChanges()
 
 #######################################################
-# PersonEditorDialog
+# Check a person dialog
+class ChooseAPersonDialog(wx.Dialog) :
+  def __init__(self, parent, personType, personName, peopleList) :
+    self.personType = personType
+    self.personName = personName
+    self.peopleList = peopleList
+
+    wx.Dialog.__init__(
+      self, parent, -1, f"Choose a person to use as {personType}"
+    )
+
+    self.choices = []
+    for aPerson in peopleList :
+      self.choices.append(aPerson)
+
+    vBox = wx.BoxSizer(wx.VERTICAL)
+    hBoxList = wx.BoxSizer(wx.HORIZONTAL)
+    self.listBox = wx.ListBox(
+      self, choices=self.choices, style=wx.LB_SINGLE
+    )
+    hBoxList.Add(self.listBox)
+    vBox.Add(hBoxList, 2, flag=wx.EXPAND)
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+    checkButton = wx.Button(self, -1, label="Update person")
+    checkButton.Bind(wx.EVT_BUTTON, self.updatePerson)
+    hBoxButtons.Add(checkButton)
+    vBox.AddSpacer(10)
+    vBox.Add(hBoxButtons)
+    self.SetSizer(vBox)
+
+  def updatePerson(self, cmdEvt) :
+    selectionIndx = self.listBox.GetSelection()
+    if -1 < selectionIndx :
+      aPerson = self.choices[selectionIndx]
+      personName = aPerson
+      personBiblatex = {}
+      if aPerson == 'new' :
+        personName = self.personName
+        personBiblatex = guessAuthorBiblatex(self.personName)
+      else :
+        personBiblatex = loadAuthorBiblatex(aPerson)
+      print(f"Updating person: {aPerson}")
+      with PersonEditorDialog(self, personName, personBiblatex) as dlg :
+        dlg.ShowModal()
+
+#######################################################
+# Choose a person to check dialog
+class ChooseAPersonToCheckDialog(wx.Dialog) :
+  def __init__(self, parent, peopleDict) :
+    self.peopleDict = peopleDict
+
+    wx.Dialog.__init__(
+      self, parent, -1, "Choose a person to check"
+    )
+
+    self.choices = createPersonRoleList(peopleDict)
+
+    vBox = wx.BoxSizer(wx.VERTICAL)
+    hBoxList = wx.BoxSizer(wx.HORIZONTAL)
+    self.listBox = wx.ListBox(self, choices=self.choices, style=wx.LB_SINGLE)
+    hBoxList.Add(self.listBox)
+    vBox.Add(hBoxList, 2, flag=wx.EXPAND)
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "Done"))
+    checkButton = wx.Button(self, -1, label="Check Person")
+    checkButton.Bind(wx.EVT_BUTTON, self.checkPerson)
+    hBoxButtons.Add(checkButton)
+    vBox.AddSpacer(10)
+    vBox.Add(hBoxButtons)
+    self.SetSizer(vBox)
+
+  def checkPerson(self, cmdEvt) :
+    selectionIndx = self.listBox.GetSelection()
+    if -1 < selectionIndx :
+      aPerson, aRole = getPersonRole(self.choices[selectionIndx])
+      print(f"Checking a person: {aPerson} as {aRole}")
+      peopleList = getPossiblePeopleFromName(aPerson)
+      with ChooseAPersonDialog(self, aRole, aPerson, peopleList) as dlg :
+        dlg.ShowModal()
+
+#######################################################
+# CitatoinEditorDialog
 class CitationEditorDialog(wx.Dialog) :
   def __init__(
-    self, parent, citationKey, bibLatex, config
+    self, parent, citationKey, bibLatex
   ) :
     wx.Dialog.__init__(
       self, parent, -1, citationKey
     )
 
-    ce = CitationEditor(self, citationKey, bibLatex, config)
-    hBox = wx.BoxSizer(wx.HORIZONTAL)
-    hBox.Add(ce)
-    self.SetSizer(hBox)
+    vBox = wx.BoxSizer(wx.VERTICAL)
+
+    self.citationEditor = CitationEditor(self, citationKey, bibLatex)
+    hBoxEditor = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxEditor.Add(self.citationEditor)
+    vBox.Add(hBoxEditor, proportion=2, flag=wx.EXPAND)
+
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+    checkPeopleButton = wx.Button(self, label="Check people")
+    checkPeopleButton.Bind(wx.EVT_BUTTON, self.CheckPeople)
+    hBoxButtons.Add(checkPeopleButton)
+    vBox.Add(hBoxButtons)
+
+    self.SetSizer(vBox)
+
+    config = Config()
+    self.SetSize(wx.Size(
+      int(config.width), int(config.height)
+    ))
+
+  def CheckPeople(self, cmdEvt) :
+    print("Checking people!")
+    peopleToCheck = self.citationEditor.getPeopleToCheck()
+    with ChooseAPersonToCheckDialog(self, peopleToCheck) as dlg :
+      dlg.ShowModal()
 
 #######################################################
 # Structure the App's MainFrame
@@ -314,30 +336,28 @@ class MainFrame(wx.Frame):
     )
 
     # Panel creation and tab holder setup:
-    p = wx.Panel(self)
+    vBox = wx.BoxSizer(wx.VERTICAL)
+    hBoxLabel = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxLabel.Add(wx.StaticText(self, -1, 'Citation Editor', (20,20)))
+    vBox.Add(hBoxLabel, proportion=2, flag=wx.EXPAND)
+    self.SetSizer(vBox)
+    self.Show()
 
-    # Initiation of the tab windows:
-    sizer = wx.BoxSizer(wx.HORIZONTAL)
+    # Initiation of the citation or author editor dialog
     if 'citationBiblatex' in bibLatex :
-      citationEditor = CitationEditor(
-        p, bibLatex['citationBiblatex']['citekey'],
+      with CitationEditorDialog(
+        self, bibLatex['citationBiblatex']['citekey'],
         bibLatex
-      )
-      sizer.Add(citationEditor, proportion=2, flag=wx.EXPAND)
+      ) as dlg :
+        dlg.ShowModal()
     elif 'authorBiblatex' in bibLatex :
-      personEditor = PersonEditor(
-        p, bibLatex['authorBiblatex']['cleanname'],
+      with PersonEditorDialog(
+        self, bibLatex['authorBiblatex']['cleanname'],
         bibLatex
-      )
-      sizer.Add(personEditor, proportion=2, flag=wx.EXPAND)
+      ) as dlg :
+        dlg.ShowModal()
 
-    # Organizing notebook layout using a sizer:
-    self.SetSize(wx.Size(
-      int(config.width), int(config.height)
-    ))
-    # self.Centre()
-    # self.Maximize()
-    p.SetSizer(sizer)
+    self.Close(force=True)
 
 #######################################################
 # Provide the command line interface

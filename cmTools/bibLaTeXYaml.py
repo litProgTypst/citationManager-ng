@@ -8,7 +8,22 @@ from cmTools.config import Config
 # We collect all of the methods which load/save our BibLaTeX formated YAML
 
 def loadBibLatexYamlFile(aPath) :
-  return yaml.safe_load(aPath.read_text())
+  biblatex = {}
+  try :
+    biblatex = yaml.safe_load(aPath.read_text())
+  except Exception :
+    pass
+  return biblatex
+
+def saveBiblatexYaml(aPath, biblatex) :
+  try :
+    aPath.write_text(yaml.dump(biblatex))
+  except Exception as err :
+    print("Could not save {aPath}")
+    print("------------------------------------------------")
+    print(yaml.dump(biblatex))
+    print("------------------------------------------------")
+    print(repr(err))
 
 def loadBibLatex(biblatexToLoad) :
   config = Config()
