@@ -1,18 +1,25 @@
 
-from pathlib import Path
+from cmTools.config import Config
 
 # We collect all of the methods which load/save Authors using our BibLaTeX
 # formated YAML
 
-# def getPersonRole(anAuthorRole) :
-#   aRole = 'unknown'
-#   anAuthor = anAuthorRole
-#   if -1 < anAuthorRole.find(':') :
-#     theParts = anAuthorRole.split(':')
-#     aRole = theParts[0].strip()
-#     anAuthor = theParts[1].strip()
-#   return (anAuthor, aRole)
-#
+def createPersonRoleList(aPeopleRoleDict) :
+    choices = []
+    for aPersonType, typedPeople in aPeopleRoleDict.items() :
+      for aPerson in typedPeople :
+        choices.append(f"{aPersonType} | {aPerson}")
+    return choices
+
+def getPersonRole(aPersonRole) :
+  aRole = 'unknown'
+  aPerson = aPersonRole
+  if -1 < aPersonRole.find('|') :
+    theParts = aPersonRole.split('|')
+    aRole = theParts[0].strip()
+    aPerson = theParts[1].strip()
+  return (aPerson, aRole)
+
 # def normalizeAuthor(anAuthorRole) :
 #   anAuthor, aRole = getPersonRole(anAuthorRole)
 #   authorDict = {
@@ -53,13 +60,13 @@ from pathlib import Path
 #
 #   return authorDict
 
-# def guessSurname(aPerson) :
-#   surname = None
-#   if ',' in aPerson :
-#     surname = aPerson.split(',')[0]
-#   else :
-#     surname = aPerson.split()[-1]
-#   return surname
+def guessSurname(aPerson) :
+  surname = None
+  if ',' in aPerson :
+    surname = aPerson.split(',')[0]
+  else :
+    surname = aPerson.split()[-1]
+  return surname
 
 def expandSurname(surname) :
   surnameParts = surname.split()
@@ -71,13 +78,14 @@ def expandSurname(surname) :
     if 0 < len(surnameParts) : jrPart  = surnameParts.pop(0)
   return (surname, vonPart, jrPart)
 
-def getPossiblePeopleFromSurname(surname) :
+def getPossiblePeopleFromName(aName) :
+  surname = guessSurname(aName)
   surname, vonPart, jrPart = expandSurname(surname)
   print(f"Searching for author: [{surname}] ({vonPart}) ({jrPart})")
-  authorDir = Path('author')
+  refsDir = Config().refsDir
   possibleAuthors = []
-  for anAuthor in authorDir.glob(f'*/*{surname}*') :
-    anAuthor = str(anAuthor.name).removesuffix('.md')
+  for anAuthor in refsDir.glob(f'*{surname}*_authorBiblatex.yaml') :
+    anAuthor = str(anAuthor.name).removesuffix('_authorBiblatex.yaml')
     possibleAuthors.append(anAuthor)
   possibleAuthors.append("new")
   possibleAuthors.sort()

@@ -9,6 +9,8 @@ import wx.propgrid as wxpg
 
 from cmTools.config import addConfigurationArgs, Config
 from cmTools.bibLaTeXYaml import loadBibLatex
+from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
+  getPossiblePeopleFromName
 # from cmTools.pybtex import loadBibLaTeXFile
 
 #######################################################
@@ -52,14 +54,31 @@ class ChooseAPersonDialog(wx.Dialog) :
       self, parent, -1, f"Choose a person to use as {personType}"
     )
 
-    choices = []
-
+    self.choices = []
     for aPerson in peopleList :
-      choices.append(aPerson)
+      self.choices.append(aPerson)
 
-    hBox = wx.BoxSizer(wx.HORIZONTAL)
-    hBox.Add(wx.Choice(self, choices=choices))
-    self.SetSizer(hBox)
+    vBox = wx.BoxSizer(wx.VERTICAL)
+    hBoxList = wx.BoxSizer(wx.HORIZONTAL)
+    self.listBox = wx.ListBox(
+      self, choices=self.choices, style=wx.LB_SINGLE
+    )
+    hBoxList.Add(self.listBox)
+    vBox.Add(hBoxList, 2, flag=wx.EXPAND)
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+    checkButton = wx.Button(self, -1, label="Update person")
+    checkButton.Bind(wx.EVT_BUTTON, self.updatePerson)
+    hBoxButtons.Add(checkButton)
+    vBox.AddSpacer(10)
+    vBox.Add(hBoxButtons)
+    self.SetSizer(vBox)
+
+  def updatePerson(self, cmdEvt) :
+    selectionIndx = self.listBox.GetSelection()
+    if -1 < selectionIndx :
+      aPerson = self.choices[selectionIndx]
+      print(f"Updating person: {aPerson}")
 
 class ChooseAPersonToCheckDialog(wx.Dialog) :
   def __init__(self, parent, peopleDict) :
@@ -69,14 +88,12 @@ class ChooseAPersonToCheckDialog(wx.Dialog) :
       self, parent, -1, "Choose a person to check"
     )
 
-    choices = []
-    for aPersonType, typedPeople in peopleDict.items() :
-      for aPerson in typedPeople :
-        choices.append(f"{aPersonType} - {aPerson}")
+    self.choices = createPersonRoleList(peopleDict)
 
     vBox = wx.BoxSizer(wx.VERTICAL)
     hBoxList = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxList.Add(wx.ListBox(self, choices=choices, style=wx.LB_SINGLE))
+    self.listBox = wx.ListBox(self, choices=self.choices, style=wx.LB_SINGLE)
+    hBoxList.Add(self.listBox)
     vBox.Add(hBoxList, 2, flag=wx.EXPAND)
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
     hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "Done"))
@@ -88,8 +105,13 @@ class ChooseAPersonToCheckDialog(wx.Dialog) :
     self.SetSizer(vBox)
 
   def checkPerson(self, cmdEvt) :
-    print("Checking a person")
-
+    selectionIndx = self.listBox.GetSelection()
+    if -1 < selectionIndx :
+      aPerson, aRole = getPersonRole(self.choices[selectionIndx])
+      print(f"Checking a person: {aPerson} as {aRole}")
+      peopleList = getPossiblePeopleFromName(aPerson)
+      with ChooseAPersonDialog(self, aRole, peopleList) as dlg :
+        dlg.ShowModal()
 
 #######################################################
 # Define the generic propery grid editor

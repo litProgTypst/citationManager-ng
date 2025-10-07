@@ -30,7 +30,8 @@ class Config(object) :
   def __getattr__(self, name) :
     if name not in self.config :
       print(f"Could not find {name} in the configuration!")
-      print("  have you called `loadConfig` yet?")
+      self.print()
+      print("Have you called `loadConfig` yet?")
       sys.exit(1)
 
     return self.config[name]
