@@ -16,8 +16,10 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
 #######################################################
 # TODO
 
-# Check `ui/citationManager/updateReference` for details on how to
-# find/extract citation structure.
+# RATIONALIZE biblatex uses (citationBiblatex / ... )
+
+# PROVIDE wx.Property types in biblatex fields to be used by property
+# editor to choose editor type for a given property.
 
 # TEST pass **Biblatex keys through to allow for multiple variants to be
 # amalgamated
@@ -25,9 +27,19 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
 # TEST Move notebook into the use of the PropertyGrid to allow editing of
 # multiple variants.
 
+# Correct getPeople in CitationEditor to collect CURRENT people rather
+# than the initial list of people
+
+# Ensure entryType and docType are both choice of known types
+
+# Add "AddFieldDialog" to add an extra field to an existing
+# propertyEditor.
+
 # Add an updateCitationKey button which takes the given people and year
 # and title and creates a trial citeKey, which can then be edited by the
 # user in a dialog.
+
+# Work on SAVING biblatex
 
 # Add a getUrl button to download and archive a paper from its url.
 
@@ -83,6 +95,8 @@ class PropertyEditor(wx.Panel) :
     if p :
       aKey = p.GetName()
       aValue = p.GetValueAsString()
+      print(f"CHANGED {aKey} = {aValue}")
+      print(yaml.dump(self.properties))
       if str(self.properties[aKey]) != aValue :
         self.changedProperties[aKey] = aValue
 
@@ -104,7 +118,7 @@ class PersonEditor(PropertyEditor):
     self.personName = personName
     self.personBiblatex = bibLatex
     super().__init__(
-      parent, bibLatex,
+      parent, bibLatex['authorBiblatex'],
       f"Content for the {personName}"
     )
 
