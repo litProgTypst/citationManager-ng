@@ -16,6 +16,8 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
 #######################################################
 # TODO
 
+# ADD Biblatex field definitions to Config
+
 # RATIONALIZE biblatex uses (citationBiblatex / ... )
 
 # TEST pass **Biblatex keys through to allow for multiple variants to be
@@ -71,8 +73,8 @@ class PropertyEditor(wx.Panel) :
     config = Config()
     self.properyGrid = pg = wxpg.PropertyGrid(
       self, size=wx.Size(
-        int(int(config.width)  * 0.95),
-        int(int(config.height) * 0.9)
+        int(int(config['width'])  * 0.95),
+        int(int(config['height']) * 0.9)
       )
     )
     pg.Bind(wxpg.EVT_PG_CHANGED, self.OnPropGridChange)
@@ -214,7 +216,7 @@ class PersonEditorDialog(wx.Dialog) :
 
     config = Config()
     self.SetSize(wx.Size(
-      int(config.width), int(config.height)
+      int(config['width']), int(config['height'])
     ))
 
   def SaveChanges(self, cmdEvt) :
@@ -330,7 +332,7 @@ class CitationEditorDialog(wx.Dialog) :
 
     config = Config()
     self.SetSize(wx.Size(
-      int(config.width), int(config.height)
+      int(config['width']), int(config['height'])
     ))
 
   def CheckPeople(self, cmdEvt) :
@@ -407,7 +409,8 @@ def cli() :
   config = Config()
   config.loadConfig(parseArgs())
   config.print()
-  bibLatex = loadBibLatex(config.biblatexYaml)
+
+  bibLatex = loadBibLatex(config['biblatexYaml'])
   if bibLatex : print(yaml.dump(bibLatex))
 
   # sys.exit(1)

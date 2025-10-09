@@ -1,4 +1,5 @@
 
+import importlib.resources
 import os
 from pathlib import Path
 import sys
@@ -27,19 +28,52 @@ class Config(object) :
       cls.instance = super(Config, cls).__new__(cls)
     return cls.instance
 
-  def __getattr__(self, name) :
-    if name not in self.config :
-      print(f"Could not find {name} in the configuration!")
-      self.print()
-      print("Have you called `loadConfig` yet?")
-      sys.exit(1)
-
-    return self.config[name]
+  def __getitem__(self, key) :
+    return self.config[key]
 
   def print(self) :
     print("-------------------------------------------------")
     print(yaml.dump(self.config))
     print("-------------------------------------------------")
+
+  def resourceException(self, resourceName, err) :
+    print(f"Could not load {resourceName}")
+    print(f"  from {self.config[resourceName]}")
+    print(repr(err))
+
+  def loadResource(self, resourceName) :
+    resourcePath = resourceName + 'Path'
+    print(f"Loading {resourceName} from {resourcePath}")
+    if resourcePath in self.config :
+      print(f"ResourcePath in config {resourcePath}")
+      try :
+        resourcePath = Path(
+          self.config[resourcePath]
+        ).expanduser()
+        setattr(
+          self, resourceName, yaml.safe_load(
+            resourcePath.read_text()
+          )
+        )
+      except Exception as err :
+        self.resourceException(resourceName, err)
+
+    if not hasattr(self, resourceName) :
+      try :
+        setattr(
+          self, resourceName, yaml.safe_load(
+            importlib.resources.read_text(
+              'cmTools.resources', resourceName + '.yaml'
+            )
+          )
+        )
+      except Exception as err :
+        self.resourceException(resourceName, err)
+
+    if not hasattr(self, resourceName) :
+      setattr(self, resourceName, {})
+
+    print(f" Finished loading {resourceName}")
 
   def loadConfig(self, args, verbose=False) :
     if 'config' not in args :
@@ -80,6 +114,11 @@ class Config(object) :
 
     if 'width'  not in self.config : self.config['width'] = 600
     if 'height' not in self.config : self.config['height'] = 600
+
+    self.loadResource('biblatexFieldOrder')
+    self.loadResource('biblatexFields')
+    self.loadResource('biblatexTypes')
+    self.loadResource('citationFieldOrder')
 
     if self.config['verbose'] : self.print()
 
