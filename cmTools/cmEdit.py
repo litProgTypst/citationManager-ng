@@ -18,22 +18,22 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
 
 # RATIONALIZE biblatex uses (citationBiblatex / ... )
 
+# TEST pass **Biblatex keys through to allow for multiple variants to be
+# amalgamated
+
 # PROVIDE wx.Property types in biblatex fields to be used by property
 # editor to choose editor type for a given property.
 
-# TEST pass **Biblatex keys through to allow for multiple variants to be
-# amalgamated
+# Ensure entryType and docType are both choice of known types
+
+# Add "AddFieldDialog" to add an extra field to an existing
+# propertyEditor.
 
 # TEST Move notebook into the use of the PropertyGrid to allow editing of
 # multiple variants.
 
 # Correct getPeople in CitationEditor to collect CURRENT people rather
 # than the initial list of people
-
-# Ensure entryType and docType are both choice of known types
-
-# Add "AddFieldDialog" to add an extra field to an existing
-# propertyEditor.
 
 # Add an updateCitationKey button which takes the given people and year
 # and title and creates a trial citeKey, which can then be edited by the
