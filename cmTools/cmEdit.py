@@ -16,20 +16,18 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
 #######################################################
 # TODO
 
-# ADD Biblatex field definitions to Config
+# PROVIDE wx.Property types in biblatex fields to be used by property
+# editor to choose editor type for a given property.
+
+# Add "AddFieldDialog" to add an extra field to an existing
+# propertyEditor.
+
+# Ensure entryType and docType are both choice of known types
 
 # RATIONALIZE biblatex uses (citationBiblatex / ... )
 
 # TEST pass **Biblatex keys through to allow for multiple variants to be
 # amalgamated
-
-# PROVIDE wx.Property types in biblatex fields to be used by property
-# editor to choose editor type for a given property.
-
-# Ensure entryType and docType are both choice of known types
-
-# Add "AddFieldDialog" to add an extra field to an existing
-# propertyEditor.
 
 # TEST Move notebook into the use of the PropertyGrid to allow editing of
 # multiple variants.
