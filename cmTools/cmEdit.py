@@ -69,7 +69,7 @@ class PropertyEditor(wx.Panel) :
 
   def createAPropertyGrid(self, properties) :
     config = Config()
-    self.properyGrid = pg = wxpg.PropertyGrid(
+    pg = wxpg.PropertyGrid(
       self, size=wx.Size(
         int(int(config['width'])  * 0.95),
         int(int(config['height']) * 0.9)
@@ -78,17 +78,15 @@ class PropertyEditor(wx.Panel) :
     pg.Bind(wxpg.EVT_PG_CHANGED, self.OnPropGridChange)
 
     for aKey, aValue in properties.items() :
-      if isinstance(aValue, list) :
-        asp = wxpg.ArrayStringProperty(aKey, value=aValue)
-        asp.SetAttribute(wxpg.PG_ARRAY_DELIMITER, ';')
-        pg.Append(asp)
-      else :
-        pg.Append(wxpg.StringProperty(aKey, value=str(aValue)))
+      self.addField(aKey, aValue, None, propertyGrid=pg)
 
     return pg
 
   def collectPropertyGrids(self) :
-    return self.createAPropertyGrid(self.properties)
+    self.mainPropertyGrid = self.createAPropertyGrid(
+      self.properties
+    )
+    return self.mainPropertyGrid
 
   def OnPropGridChange(self, event) :
     p = event.GetProperty()
@@ -109,6 +107,19 @@ class PropertyEditor(wx.Panel) :
   def saveChanges(self) :
     return {}
 
+  def addField(self, fieldLabel, fieldValue, fieldType, propertyGrid=None) :
+    if not propertyGrid :
+      propertyGrid = self.mainPropertyGrid
+    if isinstance(fieldValue, list) :
+      asp = wxpg.ArrayStringProperty(fieldLabel, value=fieldValue)
+      asp.SetAttribute(wxpg.PG_ARRAY_DELIMITER, ';')
+      propertyGrid.Append(asp)
+    else :
+      propertyGrid.Append(
+        wxpg.StringProperty(fieldLabel, value=str(fieldValue))
+      )
+    self.Show()
+
 #######################################################
 # Define the structure of editing Author BibLaTeX
 class PersonEditor(PropertyEditor):
@@ -124,14 +135,14 @@ class PersonEditor(PropertyEditor):
 
   def collectPropertyGrids(self) :
     bibLatex = self.personBiblatex
-    personPropGrid = self.createAPropertyGrid(
+    self.mainPropertyGrid = self.createAPropertyGrid(
       bibLatex['authorBiblatex']
     )
     if 'altAuthorBiblatex' not in bibLatex :
-      return personPropGrid
+      return self.mainPropertyGrid
 
     nb = wx.Notebook(self)
-    nb.AddPage(personPropGrid, self.personName)
+    nb.AddPage(self.mainPropertyGrid, self.personName)
 
     for aPersonKey, aPerson in bibLatex['altAuthorBiblatex'].items() :
       aPersonPropGrid = self.createAPropertyGrid(aPerson)
@@ -158,12 +169,14 @@ class CitationEditor(PropertyEditor):
 
   def collectPropertyGrids(self) :
     bibLatex = self.citationBiblatex
-    citationPropGrid = self.createAPropertyGrid(bibLatex['citationBiblatex'])
+    self.mainPropertyGrid = self.createAPropertyGrid(
+      bibLatex['citationBiblatex']
+    )
     if 'altCitationBiblatex' not in bibLatex :
-      return citationPropGrid
+      return self.mainPropertyGrid
 
     nb = wx.Notebook(self)
-    nb.AddPage(citationPropGrid, self.citationKey)
+    nb.AddPage(self.mainPropertyGrid, self.citationKey)
 
     for aCiteKey, aCitation in bibLatex['altCitationBiblatex'].items() :
       aCitePropGrid = self.createAPropertyGrid(aCitation)
@@ -187,6 +200,51 @@ class CitationEditor(PropertyEditor):
 #######################################################
 
 #######################################################
+# Add field dialog
+class AddFieldDialog(wx.Dialog) :
+  def __init__(self, parent, fields, gridType) :
+    self.fields = fields
+    self.gridType = gridType
+    self.selectedField = None
+
+    wx.Dialog.__init__(self, parent, -1, "Add fields")
+
+    vBox = wx.BoxSizer(wx.VERTICAL)
+
+    choices = sorted(fields.keys())
+    self.theChoice = wx.Choice(self, choices=choices, name="Fields")
+    self.theChoice.Bind(wx.EVT_CHOICE, self.updateChoice)
+    vBox.Add(self.theChoice)
+
+    self.theComment = wx.TextCtrl(
+      self, value="", style=wx.TE_MULTILINE | wx.TE_WORDWRAP | wx.TE_READONLY
+    )
+    vBox.Add(self.theComment)
+
+    self.theType = wx.TextCtrl(
+      self, value="", style=wx.TE_READONLY
+    )
+    vBox.Add(self.theType)
+
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "Add this field"))
+    hBoxButtons.Add(wx.Button(self, wx.ID_CANCEL, label = "Cancel"))
+    vBox.Add(hBoxButtons)
+
+    self.SetSizer(vBox)
+
+  def updateChoice(self, cmdEvt) :
+    self.selectedField = self.theChoice.GetString(
+      self.theChoice.GetSelection()
+    )
+    theField = self.fields[self.selectedField]
+    self.theComment.SetValue(theField['comment'])
+    theType = ""
+    if self.gridType in theField['optionalFor'] :
+      theType = "optional"
+    self.theType.SetValue(theType)
+
+#######################################################
 # PersonEditor dialogs
 class PersonEditorDialog(wx.Dialog) :
   def __init__(
@@ -205,6 +263,9 @@ class PersonEditorDialog(wx.Dialog) :
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
     hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+    # addFieldButton = wx.Button(self, label="Add Field")
+    # addFieldButton.Bind(wx.EVT_BUTTON, self.addField)
+    # hBoxButtons.Add(addFieldButton)
     saveButton = wx.Button(self, label="Save changes")
     saveButton.Bind(wx.EVT_BUTTON, self.SaveChanges)
     hBoxButtons.Add(saveButton)
@@ -219,6 +280,9 @@ class PersonEditorDialog(wx.Dialog) :
 
   def SaveChanges(self, cmdEvt) :
     self.personEditor.saveChanges()
+
+  # def addField(self, cmdEvt) :
+  #   print("Add person field")
 
 #######################################################
 # Check a person dialog
@@ -311,6 +375,7 @@ class CitationEditorDialog(wx.Dialog) :
     wx.Dialog.__init__(
       self, parent, -1, citationKey
     )
+    self.bibLatex = bibLatex['citationBiblatex']
 
     vBox = wx.BoxSizer(wx.VERTICAL)
 
@@ -321,6 +386,9 @@ class CitationEditorDialog(wx.Dialog) :
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
     hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+    addFieldButton = wx.Button(self, label="Add Field")
+    addFieldButton.Bind(wx.EVT_BUTTON, self.addField)
+    hBoxButtons.Add(addFieldButton)
     checkPeopleButton = wx.Button(self, label="Check people")
     checkPeopleButton.Bind(wx.EVT_BUTTON, self.CheckPeople)
     hBoxButtons.Add(checkPeopleButton)
@@ -338,6 +406,18 @@ class CitationEditorDialog(wx.Dialog) :
     peopleToCheck = self.citationEditor.getPeopleToCheck()
     with ChooseAPersonToCheckDialog(self, peopleToCheck) as dlg :
       dlg.ShowModal()
+
+  def addField(self, cmdEvt) :
+    print("Add citation field")
+    print(yaml.dump(self.bibLatex))
+    with AddFieldDialog(
+      self, Config().biblatexFields, self.bibLatex['entrytype']
+    ) as dlg :
+      result = dlg.ShowModal()
+      if result == wx.ID_OK :
+        print(f"Adding field {dlg.selectedField}")
+        selectedField = Config().biblatexFields[dlg.selectedField]
+        print(yaml.dump(selectedField))
 
 #######################################################
 # Structure the App's MainFrame
