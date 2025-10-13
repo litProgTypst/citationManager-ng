@@ -207,24 +207,23 @@ class AddFieldDialog(wx.Dialog) :
     self.gridType = gridType
     self.selectedField = None
 
-    wx.Dialog.__init__(self, parent, -1, "Add fields")
+    wx.Dialog.__init__(
+      self, parent, -1, f"Add fields for {self.gridType}"
+    )
 
     vBox = wx.BoxSizer(wx.VERTICAL)
+    hBoxThings = wx.BoxSizer(wx.HORIZONTAL)
 
     choices = sorted(fields.keys())
-    self.theChoice = wx.Choice(self, choices=choices, name="Fields")
-    self.theChoice.Bind(wx.EVT_CHOICE, self.updateChoice)
-    vBox.Add(self.theChoice)
-
-    self.theComment = wx.TextCtrl(
-      self, value="", style=wx.TE_MULTILINE | wx.TE_WORDWRAP | wx.TE_READONLY
+    self.theChoice = wx.ListBox(
+      self, choices=choices, name="Fields", style=wx.LB_SINGLE
     )
-    vBox.Add(self.theComment)
+    self.theChoice.Bind(wx.EVT_LISTBOX, self.updateChoice)
+    hBoxThings.Add(self.theChoice)
 
-    self.theType = wx.TextCtrl(
-      self, value="", style=wx.TE_READONLY
-    )
-    vBox.Add(self.theType)
+    self.theComment = wx.StaticText(self, label="")
+    hBoxThings.Add(self.theComment, 2, flag=wx.EXPAND)
+    vBox.Add(hBoxThings, 2, flag=wx.EXPAND)
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
     hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "Add this field"))
@@ -238,11 +237,16 @@ class AddFieldDialog(wx.Dialog) :
       self.theChoice.GetSelection()
     )
     theField = self.fields[self.selectedField]
-    self.theComment.SetValue(theField['comment'])
-    theType = ""
+    # USE textwrap wrap and get size from BoxSizer???
+    theType = "UNUSED:"
     if self.gridType in theField['optionalFor'] :
-      theType = "optional"
-    self.theType.SetValue(theType)
+      theType = "OPTIONAL:"
+    elif self.gridType in theField['requiredBy'] :
+      theType = "REQUIRED:"
+    self.theComment.SetLabel(
+      f"{theType} {theField['comment']}"
+    )
+    self.theComment.Wrap(self.theComment.GetSize().GetWidth())
 
 #######################################################
 # PersonEditor dialogs
