@@ -1,0 +1,1020 @@
+# BibLaTex field types. Taken from section 2.2 (Entry Fields)
+
+abstract:
+  type: field (literal)
+  comment: |
+    This field is intended for recording abstracts in a bib file, to be 
+    printed by a special bibliography style. It is not used by all standard 
+    bibliography styles.
+
+addendum:
+  type: field (literal)
+  comment: |
+    Miscellaneous bibliographic data to be printed at the end of the entry. 
+    This is similar to the note field except that it is printed at the end 
+    of the bibliography entry.
+
+afterword:
+  type: list (name)
+  comment: |
+    The author(s) of an afterword to the work. If the author of the 
+    afterword is identical to the editor and/or translator, the standard 
+    styles will automatically con- catenate these fields in the 
+    bibliography. See also introduction and foreword.
+
+annotation:
+  type: field (literal)
+  comment: |
+    This field may be useful when implementing a style for annotated 
+    bibliographies. it is not used by all standard bibliography styles. 
+    Note that this field is completely unrelated to annotator. The 
+    annotator is the author of annotations which are part of the work 
+    cited.
+
+annotator:
+  type: list (name)
+  comment: |
+    The author(s) of annotations to the work. If the annotator is identical 
+    to the editor and/or translator, the standard styles will automatically 
+    concatenate these fields in the bibliography. See also commentator.
+
+author:
+  type: list (name)
+  comment: The author(s) of the title.
+
+authortype:
+  type: field (key)
+  comment: |
+    The type of author. This field will affect the string (if any) used to 
+    introduce the author. Not used by the standard bibliography styles.
+
+bookauthor:
+  type: list (name)
+  comment: The author(s) of the booktitle.
+
+bookpagination:
+  type: field (key)
+  comment: |
+    If the work is published as part of another one, this is the pagination 
+    scheme of the en- closing work, i. e., bookpagination relates to 
+    pagination like booktitle to title. The value of this field will affect 
+    the formatting of the pages and pagetotal fields. The key should be 
+    given in the singular form. Possible keys are page, column, line, 
+    verse, section, and paragraph. See also pagination as well as § 2.3.10.
+
+booksubtitle:
+  type: field (literal)
+  comment: |
+    The subtitle related to the booktitle. If the subtitle field refers to 
+    a work which is part of a larger publication, a possible subtitle of 
+    the main work is given in this field. See also subtitle.
+
+booktitle:
+  type: field (literal)
+  comment: |
+    If the title field indicates the title of a work which is part of a 
+    larger publication, the title of the main work is given in this field. 
+    See also title.
+
+booktitleaddon:
+  type: field (literal)
+  comment: An annex to the booktitle, to be printed in a different font.
+
+chapter:
+  type: field (literal)
+  comment: A chapter or section or any other unit of a work.
+
+commentator:
+  type: list (name)
+  comment: |
+    The author(s) of a commentary to the work. Note that this field is 
+    intended for commented editions which have a commentator in addition to 
+    the author. If the work is a stand-alone commentary, the commentator 
+    should be given in the author field. If the commentator is identical to 
+    the editor and/or translator, the standard styles will automatically 
+    concatenate these fields in the bibliography. See also annotator.
+
+date:
+  type: field (date)
+  comment: The publication date. See also month and year as well as § 2.3.8.
+
+doi:
+  type: field (verbatim)
+  comment: The Digital Object Identifier of the work.
+
+edition:
+  type: field (integer or literal)
+  comment: |
+    The edition of a printed publication. This must be an integer, not an 
+    ordinal. Don’t say edition={First} or edition={1st} but edition={1}. 
+    The bibliography style converts this to a language dependent ordinal. 
+    It is also possible to give the edition as a literal string, for 
+    example “Third, revised and expanded edition”.
+
+editor:
+  type: list (name)
+  comment: |
+    The editor(s) of the title, booktitle, or maintitle, depending on the 
+    entry type. Use the editortype field to specify the role if it is 
+    different from ‘editor’. See § 2.3.6 for further hints.
+
+editora:
+  type: list (name)
+  comment: |
+    A secondary editor performing a different editorial role, such as 
+    compiling, redacting, etc. Use the editoratype field to specify the 
+    role. See § 2.3.6 for further hints.
+
+editorb:
+  type: list (name)
+  comment: |
+    Another secondary editor performing a different role. Use the 
+    editorbtype field to specify the role. See § 2.3.6 for further hints.
+
+editorc:
+  type: list (name)
+  comment: |
+    Another secondary editor performing a different role. Use the 
+    editorctype field to specify the role. See § 2.3.6 for further hints.
+
+editortype:
+  type: field (key)
+  comment: |
+    The type of editorial role performed by the editor. Roles supported by 
+    default are editor, compiler, founder, continuator, redactor, reviser, 
+    collaborator. The role ‘editor’ is the default. In this case, the 
+    field is omissible. See § 2.3.6 for further hints.
+
+editoratype:
+  type: field (key)
+  comment: |
+    Similar to editortype but referring to the editora field. See § 2.3.6 
+    for further hints.
+
+editorbtype:
+  type: field (key)
+  comment: |
+    Similar to editortype but referring to the editorb field. See § 2.3.6 
+    for further hints.
+
+editorctype:
+  type: field (key)
+  comment: |
+    Similar to editortype but referring to the editorc field. See § 2.3.6 
+    for further hints.
+
+eid:
+  type: field (literal)
+  comment: The electronic identifier of an @article.
+
+entrysubtype:
+  type: field (literal)
+  comment: |
+    This field, which is not used by the standard styles, may be used to 
+    specify a subtype of an entry type. This may be useful for bibliography 
+    styles which support a finer- grained set of entry types.
+
+eprint:
+  type: field (verbatim)
+  comment: |
+    The electronic identifier of an online publication. This is roughly 
+    comparable to a doi but specific to a certain archive, repository, 
+    service, or system. See § 3.11.7 for details. Also see eprinttype and 
+    eprintclass.
+
+eprintclass:
+  type: field (literal)
+  comment: |
+    Additional information related to the resource indicated by the 
+    eprinttype field. This could be a section of an archive, a path 
+    indicating a service, a classification of some sort, etc. See § 3.11.7 
+    for details. Also see eprint and eprinttype.
+
+eprinttype:
+  type: field (literal)
+  comment: |
+    The type of eprint identifier, e. g., the name of the archive, 
+    repository, service, or system the eprint field refers to. See § 3.11.7 
+    for details. Also see eprint and eprintclass.
+
+eventdate:
+  type: field (date)
+  comment: |
+    The date of a conference, a symposium, or some other event in 
+    @proceedings and @inproceedings entries. This field may also be useful 
+    for the custom types listed in § 2.1.3. See also eventtitle and venue 
+    as well as § 2.3.8.
+
+eventtitle:
+  type: field (literal)
+  comment: |
+    The title of a conference, a symposium, or some other event in 
+    @proceedings and @inproceedings entries. This field may also be useful 
+    for the custom types listed in § 2.1.3. Note that this field holds the 
+    plain title of the event. Things like “Proceed- ings of the Fifth XYZ 
+    Conference” go into the titleaddon or booktitleaddon field, 
+    respectively. See also eventdate and venue.
+
+eventtitleaddon:
+  type: field (literal)
+  comment: |
+    An annex to the eventtitle field. Can be used for known event acronyms, 
+    for example.
+
+file:
+  type: field (verbatim)
+  comment: |
+    A local link to a pdf or other version of the work. Not used by the 
+    standard bibliography styles.
+
+foreword:
+  type: list (name)
+  comment: |
+    The author(s) of a foreword to the work. If the author of the foreword 
+    is identical to the editor and/or translator, the standard styles will 
+    automatically concatenate these fields in the bibliography. See also 
+    introduction and afterword.
+
+holder:
+  type: list (name)
+  comment: |
+    The holder(s) of a @patent, if different from the author. Not that 
+    corporate holders need to be wrapped in an additional set of braces, 
+    see § 2.3.3 for details. This list may also be useful for the custom 
+    types listed in § 2.1.3.
+
+howpublished:
+  type: field (literal)
+  comment: |
+    A publication notice for unusual publications which do not fit into any 
+    of the common categories.
+
+indextitle:
+  type: field (literal)
+  comment: |
+    A title to use for indexing instead of the regular title field. This 
+    field may be useful if you have an entry with a title like “An 
+    Introduction to ...” and want that indexed as “Introduction to ..., 
+    An”. Style authors should note that Biblatex automatically copies the 
+    value of the title field to indextitle if the latter field is 
+    undefined.
+
+institution:
+  type: list (literal)
+  comment: |
+    The name of a university or some other institution, depending on the 
+    entry type. Traditional BibTeX uses the field name school for theses, 
+    which is supported as an alias. See also §§ 2.2.5 and 2.3.4.
+
+introduction:
+  type: list (name)
+  comment: |
+    The author(s) of an introduction to the work. If the author of the 
+    introduction is identical to the editor and/or translator, the standard 
+    styles will automatically concatenate these fields in the bibliography. 
+    See also foreword and afterword.
+
+isan:
+  type: field (literal)
+  comment: |
+    The International Standard Audiovisual Number of an audiovisual work. 
+    Not used by the standard bibliography styles.
+
+isbn:
+  type: field (literal)
+  comment: The International Standard Book Number of a book.
+
+ismn:
+  type: field (literal)
+  comment: |
+    The International Standard Music Number for printed music such as 
+    musical scores. Not used by the standard bibliography styles.
+
+isrn:
+  type: field (literal)
+  comment: |
+    The International Standard Technical Report Number of a technical 
+    report.
+
+issn:
+  type: field (literal)
+  comment: The International Standard Serial Number of a periodical.
+
+issue:
+  type: field (literal)
+  comment: |
+    The issue of a journal. This field is intended for journals whose 
+    individual issues are identified by a designation such as ‘Spring’ or 
+    ‘Summer’ rather than the month or a number. Since the placement of 
+    issue is similar to month and number, this field may also be useful 
+    with double issues and other special cases. See also month, number, and 
+    § 2.3.9.
+
+issuesubtitle:
+  type: field (literal)
+  comment: The subtitle of a specific issue of a journal or other periodical.
+
+issuetitle:
+  type: field (literal)
+  comment: The title of a specific issue of a journal or other periodical.
+
+iswc:
+  type: field (literal)
+  comment: |
+    The International Standard Work Code of a musical work. Not used by the 
+    standard bibliography styles.
+
+journalsubtitle:
+  type: field (literal)
+  comment: The subtitle of a journal, a newspaper, or some other periodical.
+
+journaltitle:
+  type: field (literal)
+  comment: The name of a journal, a newspaper, or some other periodical.
+
+label:
+  type: field (literal)
+  comment: |
+    A designation to be used by the citation style as a substitute for the 
+    regular label if any data required to generate the regular label is 
+    missing. For example, when an author-year citation style is generating 
+    a citation for an entry which is missing the author or the year, it may 
+    fall back to label. See § 2.3.2 for details. Note that, in contrast to 
+    shorthand, label is only used as a fallback. See also shorthand.
+
+language:
+  type: list (key)
+  comment: |
+    The language(s) of the work. Languages may be specified literally or as 
+    localization keys. If localization keys are used, the prefix lang is 
+    omissible. See also origlanguage and compare langid in § 2.2.3.
+
+library:
+  type: field (literal)
+  comment: |
+    This field may be useful to record information such as a library name 
+    and a call number. This may be printed by a special bibliography style 
+    if desired. Not used by the standard bibliography styles.
+
+location:
+  type: list (literal)
+  comment: |
+    The place(s) of publication, i. e., the location of the publisher or 
+    institution, depending on the entry type. Traditional BibTeX uses the 
+    field name address, which is supported as an alias. See also §§ 2.2.5 
+    and 2.3.4. With @patent entries, this list indicates the scope of a 
+    patent. This list may also be useful for the custom types listed in § 
+    2.1.3.
+
+mainsubtitle:
+  type: field (literal)
+  comment: The subtitle related to the maintitle. See also subtitle.
+
+maintitle:
+  type: field (literal)
+  comment: |
+    The main title of a multi-volume book, such as Collected Works. If the 
+    title or booktitle field indicates the title of a single volume which 
+    is part of multi-volume book, the title of the complete work is given 
+    in this field.
+
+maintitleaddon:
+  type: field (literal)
+  comment: An annex to the maintitle, to be printed in a different font.
+
+month:
+  type: field (datepart)
+  comment: |
+    The publication month. This must be an integer, not an ordinal or a 
+    string. Don’t say month={January} but month={1}. The bibliography style 
+    converts this to a language dependent string or ordinal where required. 
+    See also date as well as §§ 2.3.9 and 2.3.8.
+
+nameaddon:
+  type: field (literal)
+  comment: |
+    An addon to be printed immediately after the author name in the 
+    bibliography. Not used by the standard bibliography styles. This field 
+    may be useful to add an alias or pen name (or give the real name if the 
+    pseudonym is commonly used to refer to that author).
+
+note:
+  type: field (literal)
+  comment: |
+    Miscellaneous bibliographic data which does not fit into any other 
+    field. The note field may be used to record bibliographic data in a 
+    free format. Publication facts such as “Reprint of the edition London 
+    1831” are typical candidates for the note field. See also addendum.
+
+number:
+  type: field (literal)
+  comment: |
+    The number of a journal or the volume/number of a book in a series. See 
+    also issue as well as §§ 2.3.7 and 2.3.9. With @patent entries, this is 
+    the number or record token of a patent or patent request.
+
+organization:
+  type: list (literal)
+  comment: |
+    The organization(s) that published a @manual or an @online resource, or 
+    sponsored a conference. See also § 2.3.4.
+
+origdate:
+  type: field (date)
+  comment: |
+    If the work is a translation, a reprint, or something similar, the 
+    publication date of the original edition. Not used by the standard 
+    bibliography styles. See also date.
+
+origlanguage:
+  type: field (key)
+  comment: |
+    If the work is a translation, the language of the original work. See 
+    also language.
+
+origlocation:
+  type: list (literal)
+  comment: |
+    If the work is a translation, a reprint, or something similar, the 
+    location of the original edition. Not used by the standard bibliography 
+    styles. See also location and § 2.3.4.
+
+origpublisher:
+  type: list (literal)
+  comment: |
+    If the work is a translation, a reprint, or something similar, the 
+    publisher of the original edition. Not used by the standard 
+    bibliography styles. See also publisher and § 2.3.4.
+
+origtitle:
+  type: field (literal)
+  comment: |
+    If the work is a translation, the title of the original work. Not used 
+    by the standard bibliography styles. See also title.
+
+pages:
+  type: field (range)
+  comment: |
+    One or more page numbers or page ranges. If the work is published as 
+    part of another one, such as an article in a journal or a collection, 
+    this field holds the relevant page range in that other work. It may 
+    also be used to limit the reference to a specific part of a work (a 
+    chapter in a book, for example).
+
+pagetotal:
+  type: field (literal)
+  comment: The total number of pages of the work.
+
+pagination:
+  type: field (key)
+  comment: |
+    The pagination of the work. The value of this field will affect the 
+    formatting the postnote argument to a citation command. The key should 
+    be given in the singular form. Possible keys are page, column, line, 
+    verse, section, and para- graph. See also bookpagination as well as §§ 
+    2.3.10 and 3.12.3.
+
+part:
+  type: field (literal)
+  comment: |
+    The number of a partial volume. This field applies to books only, not 
+    to journals. It may be used when a logical volume consists of two or 
+    more physical ones. In this case the number of the logical volume goes 
+    in the volume field and the number of the part of that volume in the 
+    part field. See also volume.
+
+publisher:
+  type: list (literal)
+  comment: The name(s) of the publisher(s). See also § 2.3.4.
+
+pubstate:
+  type: field (key)
+  comment: |
+    The publication state of the work, e. g., ‘in press’. See § 4.9.2.11 
+    for known publication states. (One of - inpreparation, submitted, 
+    forthcoming, inpress, prepublished) 
+
+reprinttitle:
+  type: field (literal)
+  comment: The title of a reprint of the work. Not used by the standard styles.
+
+series:
+  type: field (literal)
+  comment: |
+    The name of a publication series, such as “Studies in ...”, or the 
+    number of a journal series. Books in a publication series are usually 
+    numbered. The number or volume of a book in a series is given in the 
+    number field. Note that the @article entry type makes use of the series 
+    field as well, but handles it in a special way. See § 2.3.7 for 
+    details.
+
+shortauthor:
+  type: list (name)
+  comment: |
+    The author(s) of the work, given in an abbreviated form. This field is 
+    mainly intended for abbreviated forms of corporate authors, see § 2.3.3 
+    for details.
+
+shorteditor:
+  type: list (name)
+  comment: |
+    The editor(s) of the work, given in an abbreviated form. This field is 
+    mainly intended for abbreviated forms of corporate editors, see § 2.3.3 
+    for details.
+
+shorthand:
+  type: field (literal)
+  comment: |
+    A special designation to be used by the citation style instead of the 
+    usual label. If defined, it overrides the default label. See also 
+    label.
+
+shorthandintro:
+  type: field (literal)
+  comment: |
+    The verbose citation styles which comes with this package use a phrase 
+    like “hence- forth cited as [shorthand]” to introduce shorthands on the 
+    first citation. If the shorthandintro field is defined, it overrides 
+    the standard phrase. Note that the alternative phrase must include the 
+    shorthand.
+
+shortjournal:
+  type: field (literal)
+  comment: |
+    A short version or an acronym of the journaltitle. Not used by the 
+    standard bibliography styles.
+
+shortseries:
+  type: field (literal)
+  comment: |
+    A short version or an acronym of the series field. Not used by the 
+    standard bibliography styles.
+
+shorttitle:
+  type: field (literal)
+  comment: |
+    The title in an abridged form. This field is usually not included in 
+    the bibliography. It is intended for citations in author-title format. 
+    If present, the author-title citation styles use this field instead of 
+    title.
+
+subtitle:
+  type: field (literal)
+  comment: The subtitle of the work.
+
+title:
+  type: field (literal)
+  comment: The title of the work.
+
+titleaddon:
+  type: field (literal)
+  comment: An annex to the title, to be printed in a different font.
+
+translator:
+  type: list (name)
+  comment: |
+    The translator(s) of the title or booktitle, depending on the entry 
+    type. If the translator is identical to the editor, the standard styles 
+    will automatically concatenate these fields in the bibliography.
+
+type:
+  type: field (key)
+  comment: |
+    The type of a manual, patent, report, or thesis. This field may also be 
+    useful for the custom types listed in § 2.1.3.
+    <p> One of mathesis, phdthesis, candthesis (candidate thesis), 
+    techreport, resreport (research report), software, datacd, audiocd.</p>
+    <p> For @patent entries one of patent, patentde, patenteu, patentfr,
+    patentuk, patentus.</p>
+    <p> For @patent requests one of patreq, patreqde, patreqeu, patreqfr,
+    patrequk, patrequs.</p>
+
+url:
+  type: field (uri)
+  comment: |
+    The url of an online publication. If it is not URL-escaped (no ‘%’ 
+    chars), with Biber, it will be URI-escaped according to RFC 3987, that 
+    is, even Unicode chars will be correctly escaped.
+
+urldate:
+  type: field (date)
+  comment: |
+    The access date of the address specified in the url field. See also § 
+    2.3.8.
+
+venue:
+  type: field (literal)
+  comment: |
+    The location of a conference, a symposium, or some other event in 
+    @proceedings and @inproceedings entries. This field may also be useful 
+    for the custom types listed in § 2.1.3. Note that the location list 
+    holds the place of publication. It therefore corresponds to the 
+    publisher and institution lists. The location of the event is given in 
+    the venue field. See also eventdate and eventtitle.
+
+version:
+  type: field (literal)
+  comment: The revision number of a piece of software, a manual, etc.
+
+volume:
+  type: field (literal)
+  comment: The volume of a multi-volume book or a periodical. See also part.
+
+volumes:
+  type: field (literal)
+  comment: |
+    The total number of volumes of a multi-volume work. Depending on the 
+    entry type, this field refers to title or maintitle.
+
+year:
+  type: field (literal)
+  comment: The year of publication. See also date and § 2.3.8.
+
+#
+# Special Fields
+#
+# The fields listed in this section do not hold printable data but 
+# serve a different purpose. They apply to all entry types in the 
+# default data model.
+
+crossref:
+  type: field (entry key)
+  comment: |
+    This field holds an entry key for the cross-referencing feature. Child 
+    entries with a crossref field inherit data from the parent entry 
+    specified in the crossref field. If the number of child entries 
+    referencing a specific parent entry hits a certain threshold, the 
+    parent entry is automatically added to the bibliography even if it has 
+    not been cited explicitly. The threshold is settable with the 
+    mincrossrefs package option from § 3.1.2.1. Style authors should note 
+    that whether or not the crossref fields of the child entries are 
+    defined on the Biblatex level depends on the availability of the parent 
+    entry. If the parent entry is available, the crossref fields of the 
+    child entries will be defined. If not, the child entries still inherit 
+    the data from the parent entry but their crossref fields will be 
+    undefined. Whether the parent entry is added to the bibliography 
+    implicitly because of the threshold or explicitly because it has been 
+    cited does not matter. See also the xref field in this section as well 
+    as § 2.4.1.
+
+entryset:
+  type: field (separated values)
+  comment: |
+    This field is specific to entry sets. See § 3.11.5 for details. This 
+    field is consumed by the backend processing and does not appear in the 
+    .bbl.
+
+execute:
+  type: field (code)
+  comment: |
+    A special field which holds arbitrary TeX code to be executed whenever 
+    the data of the respective entry is accessed. This may be useful to 
+    handle special cases. Conceptually, this field is comparable to the 
+    hooks \AtEveryBibitem, \AtEveryLositem, and \AtEveryCitekey from § 
+    4.10.6, except that it is definable on a per-entry basis in the bib 
+    file. Any code in this field is executed automatically immediately 
+    after these hooks.
+
+gender:
+  type: 'field (Pattern matching one of sf, sm, sn, pf, pm, pn, pp)'
+  comment: |
+    The gender of the author or the gender of the editor, if there is no 
+    author. The following identifiers are supported: sf (feminine singular, 
+    a single female name), sm (masculine singular, a single male name), sn 
+    (neuter singular, a single neuter name), pf (feminine plural, a list of 
+    female names), pm (masculine plural, a list of male names), pn (neuter 
+    plural, a list of neuter names), pp (plural, a mixed gender list of 
+    names). This information is only required by special bibliography and 
+    citation styles and only in certain languages. For example, a citation 
+    style may replace recurrent author names with a term such as ‘idem’. If 
+    the Latin word is used, as is custom in English and French, there is no 
+    need to specify the gender. In German publications, however, such key 
+    terms are usually given in German and in this case they are 
+    gender-sensitive.
+
+langid:
+  type: field (identifier)
+  comment: |
+    The language id of the bibliography entry. The alias hyphenation is 
+    provided for backwards compatibility. The identifier must be a language 
+    name known to the babel/polyglossia packages. This information may be 
+    used to switch hyphenation patterns and localize strings in the 
+    bibliography. Note that the language names are case sensitive. The 
+    languages currently supported by this package are given in table 2. 
+    Note that babel treats the identifier english as an alias for british 
+    or american, depending on the babel version. The Biblatex package 
+    always treats it as an alias for american. It is preferable to use the 
+    language identifiers american and british (babel) or a language 
+    specific option to specify a language variant (polyglossia, using the 
+    langidopts field) to avoid any possible confusion. Compare language in 
+    § 2.2.2.
+
+langidopts:
+  type: field (literal)
+  comment: |
+    For polyglossia users, allows per-entry language specific options. The 
+    literal value of this field is passed to polyglossia’s language 
+    switching facility when using the package option autolang=langname. For 
+    example, the fields:<pre>
+
+        langid     = {english},
+        langidopts = {variant=british},
+
+    </pre>would wrap the bibliography entry in:<pre>
+
+        \english[variant=british]
+            ...
+        \endenglish
+    </pre>
+ids:
+  type: field (separated list of entrykeys)
+  comment: |
+    Citation key aliases for the main citation key. An entry may be cited 
+    by any of its aliases and Biblatex will treat the citation as if it had 
+    used the primary citation key. This is to aid users who change their 
+    citation keys but have legacy documents which use older keys for the 
+    same entry. This field is consumed by the backend processing and does 
+    not appear in the .bbl.
+
+indexsorttitle:
+  type: field (literal)
+  comment: |
+    The title used when sorting the index. In contrast to indextitle, this 
+    field is used for sorting only. The printed title in the index is the 
+    indextitle or the title field. This field may be useful if the title 
+    contains special characters or commands which interfere with the 
+    sorting of the index. Consider this example:<pre>
+
+        title          = {The \LaTeX\ Companion},
+        indextitle     = {\LaTeX\ Companion, The},
+        indexsorttitle = {LATEX Companion},
+
+    </pre>Style authors should note that Biblatex automatically copies 
+    the value of either the indextitle or the title field to 
+    indexsorttitle if the latter field is undefined.
+
+keywords:
+  type: field (separated values)
+  comment: |
+    A separated list of keywords. These keywords are intended for the 
+    bibliography filters (see §§ 3.6.2 and 3.11.4), they are usually not 
+    printed. Note that with the default separator (comma), spaces around 
+    the separator are ignored.
+
+options:
+  type: field (separated key = value options)
+  comment: |
+    A separated list of entry options in key = value notation. This field 
+    is used to set options on a per-entry basis. See § 3.1.3 for details. 
+    Note that citation and bibliography styles may define additional entry 
+    options.
+
+presort:
+  type: field (string)
+  comment: |
+    A special field used to modify the sorting order of the bibliography. 
+    This field is the first item the sorting routine considers when sorting 
+    the bibliography, hence it may be used to arrange the entries in 
+    groups. This may be useful when creating subdivided bibliographies with 
+    the bibliography filters. Please refer to § 3.5 for further details. 
+    Also see § 4.5.5. This field is consumed by the backend processing and 
+    does not appear in the .bbl.
+
+related:
+  type: field (separated values)
+  comment: |
+    Citation keys of other entries which have a relationship to this entry. 
+    The relationship is specified by the relatedtype field. Please refer to 
+    § 3.4 for further details. relatedoptions field (separated values) 
+    Per-type options to set for a related entry. Note that this does not 
+    set the options on the related entry itself, only the dataonly clone 
+    which is used as a datasource for the parent entry.
+
+relatedtype:
+  type: field (identifier)
+  comment: |
+    An identifier which specified the type of relationship for the keys 
+    listed in the related field. The identifier is a localized bibliography 
+    string printed before the data from the related entry list. It is also 
+    used to identify type-specific formatting directives and bibliography 
+    macros for the related entries. Please refer to § 3.4 for further 
+    details.
+
+relatedstring:
+  type: field (literal)
+  comment: |
+    A field used to override the bibliography string specified by 
+    relatedtype. Please refer to § 3.4 for further details.
+
+sortkey:
+  type: field (literal)
+  comment: |
+    A field used to modify the sorting order of the bibliography. Think of 
+    this field as the master sort key. If present, Biblatex uses this field 
+    during sorting and ignores everything else, except for the presort 
+    field. Please refer to § 3.5 for further details. This field is 
+    consumed by the backend processing and does not appear in the .bbl.
+
+sortname:
+  type: list (name)
+  comment: |
+    A name or a list of names used to modify the sorting order of the 
+    bibliography. If present, this list is used instead of author or editor 
+    when sorting the bibliography. Please refer to § 3.5 for further 
+    details. This field is consumed by the backend processing and does not 
+    appear in the .bbl.
+
+sortshorthand:
+  type: field (literal)
+  comment: |
+    Similar to sortkey but used in the list of shorthands. If present, 
+    Biblatex uses this field instead of shorthand when sorting the list of 
+    shorthands. This is useful if the shorthand field holds shorthands with 
+    formatting commands such as \emph or \textbf. This field is consumed by 
+    the backend processing and does not appear in the .bbl.
+
+sorttitle:
+  type: field (literal)
+  comment: |
+    A field used to modify the sorting order of the bibliography. If 
+    present, this field is used instead of the title field when sorting the 
+    bibliography. The sorttitle field may come in handy if you have an 
+    entry with a title like “An Introduction to...” and want that 
+    alphabetized under ‘I’ rather than ‘A’. In this case, you could put 
+    “Introduction to...” in the sorttitle field. Please refer to § 3.5 for 
+    further details. This field is consumed by the backend processing and 
+    does not appear in the .bbl.
+
+sortyear:
+  type: field (literal)
+  comment: |
+    A field used to modify the sorting order of the bibliography. If 
+    present, this field is used instead of the year field when sorting the 
+    bibliography. Please refer to § 3.5 for further details. This field is 
+    consumed by the backend processing and does not appear in the .bbl.
+
+xdata:
+  type: field (separated list of entrykeys)
+  comment: |
+    This field inherits data from one or more @xdata entries. Conceptually, 
+    the xdata field is related to crossref and xref: crossref establishes a 
+    logical parent/child relation and inherits data; xref establishes as 
+    logical parent/child relation without inheriting data; xdata inherits 
+    data without establishing a relation. The value of the xdata may be a 
+    single entry key or a separated list of keys. See § 3.11.6 for further 
+    details. This field is consumed by the backend processing and does not 
+    appear in the .bbl.
+
+xref:
+  type: field (entry key)
+  comment: |
+    This field is an alternative cross-referencing mechanism. It differs 
+    from crossref in that the child entry will not inherit any data from 
+    the parent entry specified in the xref field. If the number of child 
+    entries referencing a specific parent entry hits a certain threshold, 
+    the parent entry is automatically added to the bibliography even if it 
+    has not been cited explicitly. The threshold is settable with the 
+    mincrossrefs package option from § 3.1.2.1. Style authors should note 
+    that whether or not the xref fields of the child entries are defined on 
+    the Biblatex level depends on the availability of the parent entry. If 
+    the parent entry is available, the xref fields of the child entries 
+    will be defined. If not, their xref fields will be undefined. Whether 
+    the parent entry is added to the bibliography implicitly because of the 
+    threshold or explicitly because it has been cited does not matter. See 
+    also the crossref field in this section as well as § 2.4.1.
+
+#
+# Custom Fields
+#
+# The fields listed in this section are intended for special 
+# bibliography styles. They are not used by the standard bibliography 
+# styles.
+
+'name[a–c]':
+  type: list (name)
+  comment: |
+    Custom lists for special bibliography styles. Not used by the standard 
+    bibliography styles.
+
+'name[a–c]type':
+  type: field (key)
+  comment: |
+    Similar to authortype and editortype but referring to the fields 
+    name[a–c]. Not used by the standard bibliography styles.
+
+'list[a–f]':
+  type: list (literal)
+  comment: |
+    Custom lists for special bibliography styles. Not used by the standard 
+    bibliography styles.
+
+'user[a–f]':
+  type: field (literal)
+  comment: |
+    Custom fields for special bibliography styles. Not used by the standard 
+    bibliography styles.
+
+'verb[a–c]':
+  type: field (literal)
+  comment: |
+    Similar to the custom fields above except that these are verbatim 
+    fields. Not used by the standard bibliography styles.
+
+#
+# Field Aliases
+#
+# The aliases listed in this section are provided for backwards 
+# compatibility with traditional BibTeX and other applications based on 
+# traditional BibTeX styles. Note that these aliases are immediately 
+# resolved as the bib file is processed. All bibliography and citation 
+# styles must use the names of the fields they point to, not the alias. 
+# In bib files, you may use either the alias or the field name but not 
+# both at the same time.
+
+address:
+  type: list (literal)
+  comment: |
+    An alias for location, provided for BibTeX compatibility. Traditional 
+    BibTeX uses the slightly misleading field name address for the place of 
+    publication, i. e., the location of the publisher, while Biblatex uses 
+    the generic field name location. See §§ 2.2.2 and 2.3.4.
+
+annote:
+  type: field (literal)
+  comment: |
+    An alias for annotation, provided for jurabib compatibility. See § 
+    2.2.2.
+
+archiveprefix:
+  type: field (literal)
+  comment: |
+    An alias for eprinttype, provided for arXiv compatibility. See §§ 2.2.2 
+    and 3.11.7.
+
+journal:
+  type: field (literal)
+  comment: |
+    An alias for journaltitle, provided for BibTeX compatibility. See § 
+    2.2.2.
+
+key:
+  type: field (literal)
+  comment: |
+    An alias for sortkey, provided for BibTeX compatibility. See § 2.2.3.
+
+pdf:
+  type: field (verbatim)
+  comment: |
+    An alias for file, provided for JabRef compatibility. See § 2.2.2.
+
+primaryclass:
+  type: field (literal)
+  comment: |
+    An alias for eprintclass, provided for arXiv compatibility. See §§ 
+    2.2.2 and 3.11.7.
+
+school:
+  type: list (literal)
+  comment: |
+    An alias for institution, provided for BibTeX compatibility. The 
+    institution field is used by traditional BibTeX for technical reports 
+    whereas the school field holds the institution associated with theses. 
+    The Biblatex package employs the generic field name institution in both 
+    cases. See §§ 2.2.2 and 2.3.4.
+
+#
+# Additional 'or' groups
+#
+
+author-editor:
+  type: field (choice)
+  comment: Either author or editor but not both.
+
+year-date:
+  type: field (choice)
+  comment: Either year or data but not both.
+
+
+#
+# Extensions for our particular use
+#
+
+citekey:
+  type: field (literal)
+  comment: |
+    The citation identifier use by the \cite commands to select the 
+    correct reference. This is a local extension to the BibLaTeX 
+    format.
+
+entrytype:
+  type: field (literal)
+  comment: |
+    The entry type. This is a local extension to the BibLaTeX format.
+
+creationid:
+  type: field (number)
+  comment: |
+    The original Aigaion database primary key. It can be used to 
+    identify the order in which the references were added. The order of 
+    addition of new references can now be determined by the git archive 
+    system.

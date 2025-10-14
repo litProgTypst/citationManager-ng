@@ -201,14 +201,15 @@ class CitationEditor(PropertyEditor):
 
 #######################################################
 # Add field dialog
-class AddFieldDialog(wx.Dialog) :
-  def __init__(self, parent, fields, gridType) :
+class ChooseFieldDialog(wx.Dialog) :
+  def __init__(self, parent, fields, taskType, gridType) :
     self.fields = fields
+    self.taskType = taskType
     self.gridType = gridType
     self.selectedField = None
 
     wx.Dialog.__init__(
-      self, parent, -1, f"Add fields for {self.gridType}"
+      self, parent, -1, f"{taskType} fields for {self.gridType}"
     )
 
     vBox = wx.BoxSizer(wx.VERTICAL)
@@ -221,8 +222,15 @@ class AddFieldDialog(wx.Dialog) :
     self.theChoice.Bind(wx.EVT_LISTBOX, self.updateChoice)
     hBoxThings.Add(self.theChoice)
 
-    self.theComment = wx.StaticText(self, label="")
-    hBoxThings.Add(self.theComment, 2, flag=wx.EXPAND)
+    self.commentPanel = wx.Panel(self)
+    vBoxComment = wx.BoxSizer(wx.VERTICAL)
+    self.theComment = wx.StaticText(self.commentPanel, label="")
+    vBoxComment.Add(
+      self.theComment, flag=wx.EXPAND | wx.ALL | wx.ALIGN_TOP, border=5
+    )
+    self.commentPanel.SetSizer(vBoxComment)
+    hBoxThings.Add(self.commentPanel, 2, flag=wx.EXPAND)
+    # hBoxThings.AddSpacer(10)
     vBox.Add(hBoxThings, 2, flag=wx.EXPAND)
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
@@ -243,10 +251,11 @@ class AddFieldDialog(wx.Dialog) :
       theType = "OPTIONAL:"
     elif self.gridType in theField['requiredBy'] :
       theType = "REQUIRED:"
+    theComment = ' '.join(theField['comment'].splitlines())
     self.theComment.SetLabel(
-      f"{theType} {theField['comment']}"
+      f"{theType} {theComment}"
     )
-    self.theComment.Wrap(self.theComment.GetSize().GetWidth())
+    self.theComment.Wrap(self.commentPanel.GetSize().GetWidth() - 10)
 
 #######################################################
 # PersonEditor dialogs
@@ -414,8 +423,8 @@ class CitationEditorDialog(wx.Dialog) :
   def addField(self, cmdEvt) :
     print("Add citation field")
     print(yaml.dump(self.bibLatex))
-    with AddFieldDialog(
-      self, Config().biblatexFields, self.bibLatex['entrytype']
+    with ChooseFieldDialog(
+      self, Config().biblatexFields, 'Add', self.bibLatex['entrytype']
     ) as dlg :
       result = dlg.ShowModal()
       if result == wx.ID_OK :

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+refDataDir=~/ExpositionGit/websites/noteServer/refs/data
+resroucesDir=~/GitTools/tiddlywiki/citationManager/ng/cmTools/resources
+
+for aYaml in $(ls *.yaml) ; do
+  baseName=${aYaml%.*}
+  echo "-------------------------------------------"
+  echo Checking $aYaml  [${baseName}]
+  diff ${refDataDir}/${baseName}.yml ${resroucesDir}/${baseName}.yaml
+  echo ""
+done
+

@@ -1,0 +1,148 @@
+# BibLaTex field types with associated Xapian Term prefixes
+
+# Term prefixes used:
+#
+# A author
+# S subject/title
+# XA abstract
+# XC content/notes
+# XI institution
+# XJ journal
+# XK entry key
+# XP publication status
+# XT entry type
+
+abstract: XA
+addendum: XC
+afterword: A
+annotation: XC
+annotator: A
+author: A
+#authortype:
+bookauthor: A
+#bookpagination:
+booksubtitle: S
+booktitle: S
+booktitleaddon: S
+#chapter:
+commentator: A
+#date:
+#doi:
+#edition:
+editor: A
+editora: A
+editorb: A
+editorc: A
+#editortype:
+#editoratype:
+#editorbtype:
+#editorctype:
+#eid:
+entrysubtype: XT
+#eprint:
+#eprintclass:
+#eprinttype:
+#eventdate:
+eventtitle: XC
+eventtitleaddon: XC
+#file:
+foreword: A
+holder: A
+#howpublished:
+indextitle: S
+institution: XI
+introduction: A
+#isan:
+#isbn:
+#ismn:
+#isrn:
+#issn:
+#issue:
+issuesubtitle: XJ
+issuetitle: XJ
+#iswc:
+journalsubtitle: XJ
+journaltitle: XJ
+#label:
+#language:
+library: XJ
+location: XI
+mainsubtitle: S
+maintitle: S
+maintitleaddon: S
+#month:
+nameaddon: A
+note: XC
+#number:
+organization: XI
+#origdate:
+#origlanguage:
+origlocation: XI
+origpublisher: XJ
+origtitle: S
+#pages:
+#pagetotal:
+#pagination:
+#part:
+publisher: XI
+pubstate: XP
+reprinttitle: S
+series: XJ
+shortauthor: A
+shorteditor: A
+#shorthand:
+#shorthandintro:
+shortjournal: XJ
+#shortseries:
+shorttitle: S
+subtitle: S
+title: S
+titleaddon: S
+translator: A
+type: XT
+#url:
+#urldate:
+venue: XI
+#version:
+#volume:
+#volumes:
+#year:
+#crossref:
+#entryset:
+#execute:
+#gender:
+#langid:
+#langidopts:
+ids: XK
+indexsorttitle: S
+keywords: K
+#options:
+#presort:
+related: XK
+#relatedtype:
+#relatedstring:
+#sortkey:
+#sortname:
+#sortshorthand:
+#sorttitle:
+#sortyear:
+#xdata:
+xref: XK
+#'name[a–c]':
+#'name[a–c]type':
+#'list[a–f]':
+#'user[a–f]':
+#'verb[a–c]':
+address: XI
+annote: XC
+archiveprefix: XJ
+journal: XJ
+key: XK
+#pdf:
+#primaryclass:
+school: XI
+#author-editor:
+#year-date:
+citekey: XK
+entrytype: XT
+#creationid:

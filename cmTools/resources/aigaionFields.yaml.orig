@@ -1,0 +1,198 @@
+abstract:
+  type: field ( text )
+  comment: Total instances 2119
+  biblatex:
+  - abstract
+
+address:
+  type: field ( text )
+  comment: Total instances 20
+  biblatex:
+  - location
+
+author:
+  type: list ( name )
+  comment: Total instances 2265
+  biblatex:
+  - author
+
+booktitle:
+  type: field ( text )
+  comment: Total instances 50
+  biblatex:
+  - booktitle
+
+citekey:
+  type: field ( text )
+  comment: Total instances 2265
+  biblatex:
+  - citekey
+
+entrytype:
+  type: field ( text )
+  comment: Total instances 2265
+  biblatex:
+  - entrytype
+
+doi:
+  type: field ( text )
+  comment: Total instances 183
+  biblatex:
+  - doi
+
+edition:
+  type: field ( text )
+  comment: Total instances 21
+  biblatex:
+  - edition
+
+editor:
+  type: list ( name )
+  comment: Total instances 2265
+  biblatex:
+  - editor
+
+firstpage:
+  type: field ( text )
+  comment: |
+    Total instances 2163 (need to fold into either pages or pagetotal as a 
+    range)
+  biblatex:
+  - pages
+
+institution:
+  type: field ( text )
+  comment: Total instances 11
+  biblatex:
+  - institution
+
+isbn:
+  type: field ( text )
+  comment: Total instances 82
+  biblatex:
+  - isbn
+
+issn:
+  type: field ( text )
+  comment: Total instances 4
+  biblatex:
+  - issn
+
+journal:
+  type: field ( text )
+  comment: Total instances 1187 
+  biblatex:
+  - journaltitle
+
+lastpage:
+  type: field ( text )
+  comment: |
+    Total instances 2163 (need to fold into either pages or pagetotal as a 
+    range)
+  biblatex:
+  - pages
+  - pagetotal
+
+location:
+  type: field ( text )
+  comment: Total instances 4
+  biblatex:
+  - location
+
+mark:
+  type: field ( text )
+  comment: Total instances 10 (No longer used)
+  biblatex: []
+
+month:
+  type: field ( text )
+  comment: Total instances 1013 (Need to convert to number)
+  biblatex:
+  - month
+
+namekey:
+  type: field ( text )
+  comment: Total instances 3 (Need to make comma separated)
+  biblatex:
+  - keywords
+
+number:
+  type: field ( text )
+  comment: Total instances 850
+  biblatex:
+  - number
+
+organization:
+  type: field ( text )
+  comment: Total instances 1
+  biblatex:
+  - organization
+
+origbibtexid:
+  type: field ( text )
+  comment: Total instances 2260
+  biblatex:
+  - ids
+
+pubid:
+  type: field ( text )
+  comment: Total instances 2265
+  biblatex:
+  - creationid
+
+publisher:
+  type: field ( text )
+  comment: Total instances 213
+  biblatex:
+  - publisher
+
+report_type:
+  type: field ( text )
+  comment: Total instances 53
+  biblatex:
+  - type
+
+school:
+  type: field ( text )
+  comment: Total instances 65
+  biblatex:
+  - institution
+
+series:
+  type: field ( text )
+  comment: Total instances 67
+  biblatex:
+  - series
+
+status:
+  type: field ( text )
+  comment: |
+    Total instances 1 (convert to one of - inpreparation, submitted
+    forthcoming, inpress, prepublished)
+  biblatex:
+  - pubstate
+
+title:
+  type: field ( text )
+  comment: Total instances 2265
+  biblatex:
+  - title
+
+url:
+  type: field ( text )
+  comment: Total instances 2265
+  biblatex:
+  - url
+
+volume:
+  type: field ( text )
+  comment: Total instances 1183
+  biblatex:
+  - volume
+
+year:
+  type: field ( text )
+  comment: Total instances 2250
+  biblatex:
+  - year
+

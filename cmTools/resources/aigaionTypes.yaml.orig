@@ -1,0 +1,311 @@
+article:
+  comment: |
+    Total instances 1184
+    abstract(1174/2119) address(1/20) author(1184/2265) 
+    citeKey(1184/2265) entryType(1184/2265) doi(171/183) 
+    editor(1184/2265) firstpage(1139/2163) issn(3/4) journal(1184/1187) 
+    lastpage(1139/2163) mark(9/10) month(745/1013) namekey(3/3) 
+    number(835/850) origBibTexId(1184/2260) pubId(1184/2265) 
+    publisher(9/213) status(1/1) title(1184/2265) url(1184/2265) 
+    volume(1135/1183) year(1184/2250) 
+  type: primary
+  aliases: []
+  biblatex:
+  - article
+  requiredFields:
+  - abstract
+  - author
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - journal
+  - lastpage
+  - month
+  - number
+  - origbibtexid
+  - pubid
+  - title
+  - url
+  - volume
+  - year
+  usefulFields:
+  - address
+  - doi
+  - issn
+  - mark
+  - namekey
+  - publisher
+  - status
+  optionalFields: []
+
+book:
+  comment: |
+    Total instances 182
+    abstract(151/2119) address(5/20) author(182/2265) 
+    booktitle(2/50) citeKey(182/2265) entryType(182/2265) 
+    doi(4/183) edition(21/21) editor(182/2265) firstpage(157/2163) 
+    isbn(81/82) lastpage(157/2163) month(47/1013) number(8/850) 
+    origBibTexId(179/2260) pubId(182/2265) publisher(182/213) 
+    series(57/67) title(182/2265) url(182/2265) volume(38/1183) 
+    year(182/2250) 
+  type: primary
+  aliases: []
+  biblatex:
+  - book
+  requiredFields:
+  - abstract
+  - author
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - lastpage
+  - origbibtexid
+  - pubid
+  - publisher
+  - title
+  - url
+  - year
+  usefulFields:
+  - address
+  - booktitle
+  - doi
+  - edition
+  - isbn
+  - month
+  - number
+  - series
+  - volume
+  optionalFields: []
+
+incollection:
+  comment: |
+    Total instances 12
+    abstract(10/2119) address(8/20) author(12/2265) booktitle(12/50) 
+    citeKey(12/2265) entryType(12/2265) editor(12/2265) 
+    firstpage(11/2163) lastpage(11/2163) mark(1/10) month(1/1013) 
+    origBibTexId(12/2260) pubId(12/2265) publisher(12/213) 
+    series(5/67) title(12/2265) url(12/2265) volume(6/1183) 
+    year(12/2250) 
+  type: primary
+  aliases: []
+  biblatex:
+  - incollection
+  requiredFields:
+  - abstract
+  - address
+  - author
+  - booktitle
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - lastpage
+  - origbibtexid
+  - pubid
+  - publisher
+  - title
+  - url
+  - volume
+  - year
+  usefulFields:
+  - mark
+  - month
+  - series
+  optionalFields: []
+
+inproceedings:
+  comment: |
+    Total instances 38
+    abstract(38/2119) address(3/20) author(38/2265) booktitle(36/50) 
+    citeKey(38/2265) entryType(38/2265) doi(1/183) editor(38/2265) 
+    firstpage(25/2163) isbn(1/82) issn(1/4) journal(2/1187) 
+    lastpage(25/2163) location(4/4) month(2/1013) organization(1/1) 
+    origBibTexId(38/2260) pubId(38/2265) publisher(10/213) 
+    series(5/67) title(38/2265) url(38/2265) volume(4/1183) 
+    year(38/2250) 
+  type: primary
+  aliases: []
+  biblatex:
+  - inproceedings
+  requiredFields:
+  - abstract
+  - author
+  - booktitle
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - lastpage
+  - origbibtexid
+  - pubid
+  - title
+  - url
+  - year
+  usefulFields:
+  - address
+  - doi
+  - isbn
+  - issn
+  - journal
+  - location
+  - month
+  - organization
+  - publisher
+  - series
+  - volume
+  optionalFields: []
+
+manual:
+  comment: |
+    Total instances 1
+    abstract(1/2119) author(1/2265) citeKey(1/2265) entryType(1/2265) 
+    editor(1/2265) journal(1/1187) origBibTexId(1/2260) 
+    pubId(1/2265) title(1/2265) url(1/2265) year(1/2250) 
+    
+  type: primary
+  aliases: []
+  biblatex:
+  - manual
+  requiredFields:
+  - abstract
+  - author
+  - citekey
+  - entrytype
+  - editor
+  - journal
+  - origbibtexid
+  - pubid
+  - title
+  - url
+  - year
+  usefulFields: []
+  optionalFields: []
+
+mastersthesis:
+  comment: |
+    Total instances 3
+    abstract(3/2119) author(3/2265) citeKey(3/2265) entryType(3/2265) 
+    editor(3/2265) firstpage(3/2163) lastpage(3/2163) 
+    month(2/1013) origBibTexId(3/2260) pubId(3/2265) report_type(3/53) 
+    school(3/65) title(3/2265) url(3/2265) year(3/2250) 
+    
+  type: primary
+  aliases: []
+  biblatex:
+  - thesis
+  requiredFields:
+  - abstract
+  - author
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - lastpage
+  - month
+  - origbibtexid
+  - pubid
+  - report_type
+  - school
+  - title
+  - url
+  - year
+  usefulFields: []
+  optionalFields: []
+
+phdthesis:
+  comment: |
+    Total instances 62
+    abstract(60/2119) address(2/20) author(62/2265) citeKey(62/2265) 
+    entryType(62/2265) editor(62/2265) firstpage(54/2163) 
+    lastpage(54/2163) month(36/1013) origBibTexId(62/2260) 
+    pubId(62/2265) report_type(49/53) school(62/65) title(62/2265) 
+    url(62/2265) year(62/2250) 
+  type: primary
+  aliases: []
+  biblatex:
+  - thesis
+  requiredFields:
+  - abstract
+  - author
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - lastpage
+  - month
+  - origbibtexid
+  - pubid
+  - report_type
+  - school
+  - title
+  - url
+  - year
+  usefulFields:
+  - address
+  optionalFields: []
+
+techreport:
+  comment: |
+    Total instances 11
+    abstract(9/2119) address(1/20) author(11/2265) citeKey(11/2265) 
+    entryType(11/2265) editor(11/2265) firstpage(7/2163) 
+    institution(11/11) lastpage(7/2163) month(2/1013) number(7/850) 
+    origBibTexId(11/2260) pubId(11/2265) report_type(1/53) 
+    title(11/2265) url(11/2265) year(11/2250) 
+  type: primary
+  aliases: []
+  biblatex:
+  - report
+  requiredFields:
+  - abstract
+  - author
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - institution
+  - lastpage
+  - number
+  - origbibtexid
+  - pubid
+  - title
+  - url
+  - year
+  usefulFields:
+  - address
+  - month
+  - report_type
+  optionalFields: []
+
+unpublished:
+  comment: |
+    Total instances 772
+    abstract(673/2119) author(772/2265) citeKey(772/2265) 
+    entryType(772/2265) doi(7/183) editor(772/2265) firstpage(767/2163) 
+    lastpage(767/2163) month(178/1013) origBibTexId(770/2260) 
+    pubId(772/2265) title(772/2265) url(772/2265) year(757/2250) 
+    
+  type: primary
+  aliases: []
+  biblatex:
+  - unpublished
+  requiredFields:
+  - abstract
+  - author
+  - citekey
+  - entrytype
+  - editor
+  - firstpage
+  - lastpage
+  - origbibtexid
+  - pubid
+  - title
+  - url
+  - year
+  usefulFields:
+  - doi
+  - month
+  optionalFields: []
+

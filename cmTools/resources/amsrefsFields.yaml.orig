@@ -1,0 +1,438 @@
+# AMSrefs field types. Taken from section 5.3 (Field names for \bib command)
+
+#
+# Simple fields
+#
+# The meaning of many of these should be self-evident, so comments will 
+# be kept to a minimum.
+
+accessdate:
+  type: field ( date )
+  comment: |
+    Used to specify the date on which a webpage was viewed, as op- posed to 
+    the date on which the resource was last modified, which would be put in 
+    the date field.
+  biblatex:
+  - urldate
+
+address:
+  type: field ( text )
+  comment: |
+    Usually the address of the publisher or other issuing organization, but 
+    inside the conference compound field (see page 13) it refers to the 
+    address of the conference.
+  biblatex:
+  - location
+
+booktitle:
+  type: field ( text )
+  comment: |
+    Used in the article type to specify the title of the book in which the 
+    article appeared. If anything other than a simple book title is 
+    required, the book compound field should be used instead.
+  biblatex:
+  - booktitle
+
+date: 
+  type: field ( date )
+  comment: |
+    Usually the date of publication, except inside the conference field, 
+    where it is the date of the conference (see page 13).
+    <p>This replaces BibTEX’s year and month fields. Its value should be 
+    written in ISO 8601 format, e.g., 1967-02-24. The day and/or month can 
+    be omitted, so all of the following are valid representations of 
+    February 24, 1967:<pre>
+
+        date = {1967-02-24}
+        date = {1967-02}
+        date = {1967}
+
+    </pre>Using this format allows amsrefs maximum flexibility in formatting 
+    dates, for example, by allowing month names to be printed in full or 
+    abbreviated as necessary.</p>
+    <p>For “Winter”, “Spring”, “Summer”, “Fall”, either use month numbers of
+    13, 14, 15, 16 (respectively) or just put in the text before the year:<pre>
+
+        date = {Summer 1987},
+
+    </pre>For compatibility, year is provided as an alias for date, but its 
+    use is discouraged.</p>
+  biblatex:
+  - date
+
+edition:
+  type: field ( text )
+  comment: |
+    For books or reports. If the value of this field is a simple number, 
+    \bib will convert it to cardinal form and add “ed.” (or alternative 
+    text if specified by the bibliography style). Otherwise it will be 
+    printed as is.
+  biblatex:
+  - edition
+
+eprint:
+  type: field ( text )
+  comment: |
+    Electronic preprint information such as for www.arXiv.org. See 
+    http://xxx.lanl.gov/help/faq/references for recommended form.
+  biblatex:
+  - eprint
+
+hyphenation:
+  type: field ( text )
+  comment: |
+    This corresponds to the Babel package notion of “language”. The 
+    hyphenation language used for a given \bib entry is determined from 
+    various clues, which are checked in the following order:
+    <ol>
+      <li>The Babel language specified by the hyphenation field.</li>
+      <li>The Babel language specified by the first word of the language
+          field (after lowercasing).</li>
+      <li>The current Babel language that was in effect before the \bib 
+          command started.</li>
+      <li>The current hyphenation patterns of the document, if there are
+          no Babel language modules loaded.</li>
+    </ol>
+    The hyphenation field applies to an entire entry. To change the Babel 
+    language for a single field, see the discussion of the language 
+    attribute on page 21.
+    <p>NOTE: BibLaTex does not have true equivalent for hyphenation</p>
+  biblatex:
+  - language
+
+journal:
+  type: field ( text )
+  comment: none
+  biblatex:
+  - journaltitle
+
+label:
+  type: field ( text )
+  comment: |
+    When the alphabetic or shortalphabetic options are used, amsrefs will 
+    usually try to generate the label on its own. If necessary, you can 
+    override the automatically generated label by specifying a label field.
+  biblatex:
+  - label
+
+language:
+  type: field ( text )
+  comment: |
+    Language of the work. The language name should be the printed form, not 
+    a Babel-style language name, since in principle this field could 
+    contain more complicated remarks such as “Russian, with French ab- 
+    stract”. Cf. hyphenation.
+  biblatex:
+  - language
+
+note:
+  type: field ( text )
+  comment: |
+    Any additional information that does not fit into one of the other fields.
+  biblatex:
+  - note
+
+number:
+  type: field ( number )
+  comment: |
+    The issue number of the journal for an article or the technical report 
+    number for a report.
+  biblatex:
+  - number
+
+organization:
+  type: field ( text )
+  comment: |
+    The school, university, corporation, or other nonpublisher orga- 
+    nization that issued the document.
+  biblatex:
+  - organization
+
+pages:
+  type: field ( range )
+  comment: none
+  biblatex:
+  - pages
+
+part:
+  type: field ( number )
+  comment: none
+  biblatex:
+  - part
+
+publisher:
+  type: field ( text )
+  comment: none
+  biblatex:
+  - publisher
+
+series:
+  type: field ( text )
+  comment: none
+  biblatex:
+  - series
+
+status:
+  type: field ( text )
+  comment: |
+    Typically used for notes such as “to appear” or “in preparation” or 
+    “unpublished” with journal articles.
+  biblatex:
+  - pubstate
+
+subtitle:
+  type: field ( text )
+  comment: |
+    Typically used with a multipart journal article to give a subtitle for
+    each part, but it can also be used for books.
+  biblatex:
+  - subtitle
+
+title:
+  type: field ( text )
+  comment: none
+  biblatex:
+  - title
+
+type:
+  type: field ( text )
+  comment: The type of a thesis, e.g., “Master’s Thesis” or “Ph.D. Thesis”.
+  biblatex:
+  - type
+
+volume:
+  type: field ( number )
+  comment: none
+  biblatex:
+  - volume
+
+xref:
+  type: field ( text )
+  comment: This will be explained in section 8.2.
+  biblatex:
+  - xref
+
+#
+#Repeatable fields
+#
+
+author:
+  type: list ( name )
+  comment: |
+    The authors, editors, and/or translators of the
+    item. If there are other contributors that should be acknowledged, they
+    should be listed in contribution fields (see page 13).
+  biblatex:
+  - author
+
+editor:
+  type: list ( name )
+  comment: |
+    The authors, editors, and/or translators of the
+    item. If there are other contributors that should be acknowledged, they
+    should be listed in contribution fields (see page 13).
+  biblatex:
+  - editor
+
+translator:
+  type: list ( name )
+  comment: |
+    The authors, editors, and/or translators of the
+    item. If there are other contributors that should be acknowledged, they
+    should be listed in contribution fields (see page 13).
+  biblatex:
+  - translator
+
+isbn:
+  type: list ( text )
+  comment: |
+    An International Standard Book or Serial Number. (These are not printed 
+    by the standard styles, but are reserved for future use.)
+    NOTE: BibLaTeX only provides for ONE ISBN not a list.
+  biblatex:
+  - isbn
+
+issn:
+  type: list ( text )
+  comment: |
+    An International Standard Book or Serial Number. (These are not printed 
+    by the standard styles, but are reserved for future use.)
+    NOTE: BibLaTeX only provides for ONE ISSN not a list.
+  biblatex:
+  - issn
+
+review:
+  type: list ( text )
+  comment: |
+    A review number or similar pointer to, for example, Mathematical 
+    Reviews or Zentralblatt. You must supply any special markup for the 
+    number; i.e., you should write<pre>
+
+        review = {\MR{2015463}}
+
+    </pre>instead of<pre>
+
+        review = {2015463}
+
+    </pre>
+    <p>NOTE: BibLaTeX has no equivalent for the review field.</p>
+  biblatex: []
+#
+# Compound fields
+#
+# These are the compound fields currently supported by amsrefs.
+
+book:
+  type: compound ( latex )
+  comment: |
+    This is used for conference articles to make it easier to differenti- 
+    ate between an article and the book or proceedings that it appeared in. 
+    The book field can contain any of the following subfields: title, part, 
+    subtitle, edition, editor, translator, contribution, series, volume, 
+    publisher, organization, address, date, note.
+    <p>It is often used in conjunction with the conference field.</p>
+    <p>NOTE: BibLaTeX has no direct equivalent to the field book.
+    use the entries inbook/book instead.</p>
+  biblatex:
+  - inbook
+  - book
+
+conference:
+  type: compound ( latex )
+  comment: |
+    The conference field can contain a title, address, and date.<pre>
+
+        \bib{Burkholder1986a}{article}{
+          author={Burkholder, Donald L.},
+          title={Martingales and Fourier analysis in Banach spaces},
+          conference={
+            title={C.I.M.E. Lectures},
+            address={Varenna, Italy},
+            date={1985}
+          },
+          book={
+            series={Lecture Notes in Math.},
+            volume={1206},
+            publisher={Springer-Verlag},
+            address={Berlin and New York},
+            date={1986},
+          },
+          pages={61--108},
+          review={\MR{0864712}
+       }
+    </pre>
+    <p>NOTE: BibLaTeX has no direct equivalent to the field conference.
+    use the entries inconference/conference instead.</p>
+  biblatex: 
+  - inconference
+  - conference
+
+contribution:
+  type: compound ( latex )
+  comment: |
+    This field can be repeated as many times as necessary to list any 
+    contributors other than authors, editors, or translators.<pre>
+
+        contribution={
+          type={illustrations},
+          author={Gorey, Edward}
+        }
+
+    </pre>which in the default style produces<pre>
+
+       with illustrations by Edward Gorey
+
+    </pre>Since contributions are potentially complicated, so is the 
+    contribution field:
+    <ul>
+      <li>Sometimes it is necessary to add additional material to the type in
+        order to produce intelligible text:<pre>
+ 
+          contribution={
+            type={an appendix},
+            author={Doe, John}
+          }
+
+      </pre></li>
+      <li>amsrefs tries very hard to format multiple contributions, each of
+        which may have multiple authors, in an appropriate way. However,
+        there might be cases where the default rules aren’t flexible enough,
+        in which case you can instead use the contribution field as a simple
+        field and format it exactly the way you want:<pre>
+
+          contribution={some arbitrary text about contributions}
+
+        </pre>This feature should only be used as a last resort, though.</li>
+    </ul>
+    <p>NOTE: BibLaTex has no equivalent to contribution.</p>
+  biblatex: []
+
+partial:
+  type: compound ( latex )
+  comment: |
+    This is used with the article type for multipart articles. Like the 
+    contribution field, it is repeatable. It can contain any of the 
+    following fields: part, subtitle, contribution, journal, volume, date, 
+    number, pages.<pre>
+
+        \bib{Zho-fan1972}{article}{
+          author={Zho-fan, Z.},
+          title={Monomials},
+          partial={
+            part={I},
+            journal={Tot. Math.},
+            volume={19},
+            date={1972},
+            pages={335--350}
+          },
+          partial={
+            part={II},
+            journal={Tot. Math.},
+            volume={20},
+            date={1973},
+            pages={19--37}
+          }
+        }
+    </pre>
+    <p>NOTE: BibLaTex has no equivalent to partial.</p>
+  biblatex: []
+
+reprint:
+  type: compound ( latex )
+  comment: |
+    This can be used inside an article to indicate another place (usually a 
+    book) where the article can also be found. It can contain any field 
+    that the book type can.<pre>
+
+        \bib{Sokal96}{article}{
+          title={Trangressing the boundaries},
+          subtitle={Toward a transformative hermeneutics of quantum
+            gravity},
+          author={Sokal, Alan},
+          journal={Social Text},
+          volume={46/47},
+          date={1996},
+          pages={217--252},
+          reprint={
+            title={Fashionable Nonsense},
+            subtitle={Postmodern Intellectuals’ Abuse of Science},
+            author={Sokal, Alan},
+            author={Bricmont, Jean},
+            publisher={Picador USA},
+            address={New York},
+            date={1998}
+          }
+        }
+    </pre>
+    <p>NOTE: BibLaTex has no equivalent to reprint.</p>
+  biblatex: []
+
+translation:
+  type: compound ( latex )
+  comment: |
+    This is the only compound field that can be used with any bib- 
+    liography type. It can contain any field that its parent type can 
+    contain. We saw an example of this on page 10.
+    <p>NOTE: BibLaTex has no equivalent to translation.</p>
+  biblatex: []
+
