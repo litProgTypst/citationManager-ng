@@ -245,16 +245,23 @@ class ChooseFieldDialog(wx.Dialog) :
       self.theChoice.GetSelection()
     )
     theField = self.fields[self.selectedField]
-    # USE textwrap wrap and get size from BoxSizer???
-    theType = "UNUSED:"
+    # see: https://rgbcolorpicker.com/
+    theType = "UNUSED"
+    theColor = wx.Colour(255, 149, 0, alpha=128)  # light orange
     if self.gridType in theField['optionalFor'] :
-      theType = "OPTIONAL:"
+      theType = "OPTIONAL"
+      theColor = wx.Colour(238, 255, 0, alpha=128)  # yellow
     elif self.gridType in theField['requiredBy'] :
-      theType = "REQUIRED:"
+      theType = "REQUIRED"
+      theColor = wx.Colour(255, 15, 0, alpha=128)  # light red
+    elif self.gridType in theField['usefulFor'] :
+      theType = "USEFUL"
+      theColor = wx.Colour(0, 178, 255, alpha=128)  # light blue
     theComment = ' '.join(theField['comment'].splitlines())
     self.theComment.SetLabel(
-      f"{theType} {theComment}"
+      f"{theType}: {theComment}"
     )
+    self.theComment.SetBackgroundColour(theColor)
     self.theComment.Wrap(self.commentPanel.GetSize().GetWidth() - 10)
 
 #######################################################
