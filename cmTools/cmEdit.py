@@ -1,6 +1,7 @@
 
 import argparse
 import copy
+import re
 import sys
 import yaml
 
@@ -10,7 +11,8 @@ import wx.propgrid as wxpg
 from cmTools.config import addConfigurationArgs, Config
 from cmTools.bibLaTeXYaml import loadBibLatex
 from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
-  getPossiblePeopleFromName, guessAuthorBiblatex, loadAuthorBiblatex
+  getPossiblePeopleFromName, guessAuthorBiblatex, loadAuthorBiblatex, \
+  guessSurname
 # from cmTools.pybtex import loadBibLaTeXFile
 
 #######################################################
@@ -68,7 +70,6 @@ class PropertyEditor(wx.Panel) :
   ) :
     self.properties = properties
     self.title = title
-    self.changedProperties = {}
     wx.Panel.__init__(self, parent)
 
     hBoxLabel = wx.BoxSizer(wx.HORIZONTAL)
@@ -111,14 +112,10 @@ class PropertyEditor(wx.Panel) :
       aValue = p.GetValueAsString()
       print(f"CHANGED {aKey} = {aValue}")
       print(yaml.dump(self.properties))
-      if str(self.properties[aKey]) != aValue :
-        self.changedProperties[aKey] = aValue
+      self.properties[aKey] = aValue
 
   def getUpdatedProperties(self) :
-    properties = copy.deepcopy(self.properties)
-    for aKey, aValue in self.changedProperties.items() :
-      properties[aKey] = aValue
-    return properties
+    return self.properties
 
   def saveChanges(self) :
     return {}
@@ -136,6 +133,12 @@ class PropertyEditor(wx.Panel) :
       )
     self.Show()
 
+  def removeField(self, fieldLabel, propertyGrid=None) :
+    if not propertyGrid :
+      propertyGrid = self.mainPropertyGrid
+    propertyGrid.RemoveProperty(fieldLabel)
+    self.Show()
+
 #######################################################
 # Define the structure of editing Author BibLaTeX
 class PersonEditor(PropertyEditor):
@@ -144,6 +147,8 @@ class PersonEditor(PropertyEditor):
   ):
     self.personName = personName
     self.personBiblatex = bibLatex
+    self.origPersonBiblatex = copy.deepcopy(bibLatex)
+
     super().__init__(
       parent, bibLatex['authorBiblatex'],
       f"Content for the {personName}"
@@ -178,8 +183,10 @@ class CitationEditor(PropertyEditor):
   ):
     self.citationKey = citationKey
     self.citationBiblatex = citationBiblatex
+    self.origCitationBiblatex = copy.deepcopy(citationBiblatex)
+
     super().__init__(
-      parent, citationBiblatex,
+      parent, citationBiblatex['citationBiblatex'],
       f"Content for the {citationKey}"
     )
 
@@ -216,7 +223,76 @@ class CitationEditor(PropertyEditor):
 #######################################################
 
 #######################################################
-# Add field dialog
+# Choose URL Dialog
+class ChooseUrlDialog(wx.Dialog) :
+  def __init__(self, parent, urls, citeKey) :
+    self.urls = urls
+    self.citeKey = citeKey
+
+    wx.Dialog.__init__(self, parent, -1, f"Download PDF for {citeKey}")
+
+    vBox = wx.BoxSizer(wx.VERTICAL)
+
+    self.theChoice = wx.ListBox(
+      self, choices=urls, name="urls", style=wx.LB_SINGLE
+    )
+    vBox.Add(self.theChoice)
+
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(
+      self, wx.ID_OK, label = "Download PDF")
+    )
+    hBoxButtons.Add(wx.Button(self, wx.ID_CANCEL, label = "Cancel"))
+    vBox.Add(hBoxButtons)
+
+    self.SetSizer(vBox)
+
+#######################################################
+# Choose cite key dialog
+specialChars = re.compile(r'[^a-zA-Z0-9 ]')
+
+def camelCase(thePhrase) :
+  thePhrase = specialChars.sub('', thePhrase)
+  thePhrase = thePhrase.title()
+  return thePhrase[0].lower() + thePhrase.replace(' ', '')[1:]
+
+class UpdateCiteKeyDialog(wx.Dialog) :
+  def __init__(self, parent, authors, year, title) :
+    print("UpdateCiteKeyDialog")
+    self.authors = authors
+    print(yaml.dump(authors))
+    self.year    = year
+    self.title   = title
+
+    wx.Dialog.__init__(self, parent, -1, f"Update citeKey for {title}")
+
+    vBox = wx.BoxSizer(wx.VERTICAL)
+
+    authorSurnames = []
+    for anAuthor in authors :
+      authorSurnames.append(guessSurname(anAuthor))
+    authorSurnames = ' '.join(authorSurnames)
+
+    self.theAuthorPart = wx.TextCtrl(self, -1, camelCase(authorSurnames))
+    vBox.Add(self.theAuthorPart)
+
+    self.theYearPart = wx.TextCtrl(self, -1, year)
+    vBox.Add(self.theYearPart)
+
+    self.theTitlePart = wx.TextCtrl(self, -1, camelCase(title))
+    vBox.Add(self.theTitlePart, 2, flag=wx.EXPAND)
+
+    hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
+    hBoxButtons.Add(wx.Button(
+      self, wx.ID_OK, label = "Update citeKey")
+    )
+    hBoxButtons.Add(wx.Button(self, wx.ID_CANCEL, label = "Cancel"))
+    vBox.Add(hBoxButtons)
+
+    self.SetSizer(vBox)
+
+#######################################################
+# Choose field dialog
 class ChooseFieldDialog(wx.Dialog) :
   def __init__(self, parent, fields, taskType, gridType) :
     self.fields = fields
@@ -500,9 +576,21 @@ class CitationEditorDialog(wx.Dialog) :
 
   def updateCiteKey(self, cmdEvt) :
     print("Update citeKey")
+    authors = self.bibLatex['author']
+    year    = self.bibLatex['year']
+    title   = self.bibLatex['title']
+    with UpdateCiteKeyDialog(self, authors, year, title) as dlg :
+      dlg.ShowModal()
 
   def downloadPdf(self, cmdEvt) :
     print("Download PDF")
+    urls = []
+    if 'url' in self.bibLatex :
+      urls = self.bibLatex['url']
+    if urls :
+      citeKey = self.bibLatex['citekey']
+      with ChooseUrlDialog(self, urls, citeKey) as dlg :
+        dlg.ShowModal()
 
 #######################################################
 # Structure the App's MainFrame
