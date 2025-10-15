@@ -224,6 +224,10 @@ class CitationEditor(PropertyEditor):
 
 #######################################################
 # Choose URL Dialog
+
+# ADD a textCtrl which will be used as THE url to download and add a
+# choose selected button to transfer the selected url to this text ctrl.
+
 class ChooseUrlDialog(wx.Dialog) :
   def __init__(self, parent, urls, citeKey) :
     self.urls = urls
