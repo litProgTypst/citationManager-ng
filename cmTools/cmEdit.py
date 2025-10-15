@@ -44,6 +44,22 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
 # Add a getUrl button to download and archive a paper from its url.
 
 #######################################################
+# Setup our colours
+# see: https://rgbcolorpicker.com/
+
+redColour       = wx.Colour(255, 0,   0)
+greenColour     = wx.Colour(0,   255, 0)
+blueColour      = wx.Colour(0,   0,   255)
+
+yellowColour    = wx.Colour(255, 255, 0)
+orangeColour    = wx.Colour(255, 128, 0)
+
+purpleColour    = wx.Colour(255, 0,   255)
+
+aquaColour      = wx.Colour(0,   255, 255)
+lightBlueColour = wx.Colour(0,   128, 255)
+
+#######################################################
 # Define the generic propery grid editor
 
 class PropertyEditor(wx.Panel) :
@@ -234,7 +250,9 @@ class ChooseFieldDialog(wx.Dialog) :
     vBox.Add(hBoxThings, 2, flag=wx.EXPAND)
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "Add this field"))
+    hBoxButtons.Add(wx.Button(
+      self, wx.ID_OK, label = f"{taskType} this field")
+    )
     hBoxButtons.Add(wx.Button(self, wx.ID_CANCEL, label = "Cancel"))
     vBox.Add(hBoxButtons)
 
@@ -245,21 +263,21 @@ class ChooseFieldDialog(wx.Dialog) :
       self.theChoice.GetSelection()
     )
     theField = self.fields[self.selectedField]
-    # see: https://rgbcolorpicker.com/
     theType = "UNUSED"
-    theColor = wx.Colour(255, 149, 0, alpha=128)  # light orange
+    theColor = orangeColour
     if self.gridType in theField['optionalFor'] :
       theType = "OPTIONAL"
-      theColor = wx.Colour(238, 255, 0, alpha=128)  # yellow
+      theColor = yellowColour
     elif self.gridType in theField['requiredBy'] :
       theType = "REQUIRED"
-      theColor = wx.Colour(255, 15, 0, alpha=128)  # light red
+      theColor = redColour
     elif self.gridType in theField['usefulFor'] :
       theType = "USEFUL"
-      theColor = wx.Colour(0, 178, 255, alpha=128)  # light blue
+      theColor = lightBlueColour
     theComment = ' '.join(theField['comment'].splitlines())
+    theFieldType = f"{theType}--{theField['structure']}--{theField['type']}"
     self.theComment.SetLabel(
-      f"{theType}: {theComment}"
+      f"{theComment}\t[{theFieldType}]"
     )
     self.theComment.SetBackgroundColour(theColor)
     self.theComment.Wrap(self.commentPanel.GetSize().GetWidth() - 10)
@@ -282,13 +300,14 @@ class PersonEditorDialog(wx.Dialog) :
     vBox.Add(hBoxEditor, proportion=2, flag=wx.EXPAND)
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
-    # addFieldButton = wx.Button(self, label="Add Field")
-    # addFieldButton.Bind(wx.EVT_BUTTON, self.addField)
-    # hBoxButtons.Add(addFieldButton)
     saveButton = wx.Button(self, label="Save changes")
     saveButton.Bind(wx.EVT_BUTTON, self.SaveChanges)
+    saveButton.SetBackgroundColour(greenColour)
     hBoxButtons.Add(saveButton)
+
+    doneButton = wx.Button(self, wx.ID_OK, label = "Done")
+    doneButton.SetBackgroundColour(redColour)
+    hBoxButtons.Add(doneButton)
     vBox.Add(hBoxButtons)
 
     self.SetSizer(vBox)
@@ -328,10 +347,14 @@ class ChooseAPersonDialog(wx.Dialog) :
     hBoxList.Add(self.listBox)
     vBox.Add(hBoxList, 2, flag=wx.EXPAND)
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+
     checkButton = wx.Button(self, -1, label="Update person")
     checkButton.Bind(wx.EVT_BUTTON, self.updatePerson)
     hBoxButtons.Add(checkButton)
+
+    doneButton = wx.Button(self, wx.ID_OK, label = "DONE")
+    hBoxButtons.Add(doneButton)
+
     vBox.AddSpacer(10)
     vBox.Add(hBoxButtons)
     self.SetSizer(vBox)
@@ -405,13 +428,39 @@ class CitationEditorDialog(wx.Dialog) :
     vBox.Add(hBoxEditor, proportion=2, flag=wx.EXPAND)
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxButtons.Add(wx.Button(self, wx.ID_OK, label = "DONE"))
+
     addFieldButton = wx.Button(self, label="Add Field")
     addFieldButton.Bind(wx.EVT_BUTTON, self.addField)
+    addFieldButton.SetBackgroundColour(yellowColour)
     hBoxButtons.Add(addFieldButton)
+
+    removeFieldButton = wx.Button(self, label="Remove Field")
+    removeFieldButton.Bind(wx.EVT_BUTTON, self.removeField)
+    removeFieldButton.SetBackgroundColour(yellowColour)
+    hBoxButtons.Add(removeFieldButton)
+
     checkPeopleButton = wx.Button(self, label="Check people")
     checkPeopleButton.Bind(wx.EVT_BUTTON, self.CheckPeople)
+    checkPeopleButton.SetBackgroundColour(aquaColour)
     hBoxButtons.Add(checkPeopleButton)
+
+    updateCiteKeyButton = wx.Button(self, label="Update CiteKey")
+    updateCiteKeyButton.Bind(wx.EVT_BUTTON, self.updateCiteKey)
+    updateCiteKeyButton.SetBackgroundColour(purpleColour)
+    hBoxButtons.Add(updateCiteKeyButton)
+
+    downloadPdfButton = wx.Button(self, label="Download PDF")
+    downloadPdfButton.Bind(wx.EVT_BUTTON, self.downloadPdf)
+    downloadPdfButton.SetBackgroundColour(purpleColour)
+    hBoxButtons.Add(downloadPdfButton)
+
+    saveButton = wx.Button(self, wx.ID_OK, label = "Save Changes")
+    saveButton.SetBackgroundColour(greenColour)
+    hBoxButtons.Add(saveButton)
+
+    cancelButton = wx.Button(self, wx.ID_CANCEL, label = "Cancel")
+    cancelButton.SetBackgroundColour(redColour)
+    hBoxButtons.Add(cancelButton)
     vBox.Add(hBoxButtons)
 
     self.SetSizer(vBox)
@@ -429,7 +478,6 @@ class CitationEditorDialog(wx.Dialog) :
 
   def addField(self, cmdEvt) :
     print("Add citation field")
-    print(yaml.dump(self.bibLatex))
     with ChooseFieldDialog(
       self, Config().biblatexFields, 'Add', self.bibLatex['entrytype']
     ) as dlg :
@@ -438,6 +486,23 @@ class CitationEditorDialog(wx.Dialog) :
         print(f"Adding field {dlg.selectedField}")
         selectedField = Config().biblatexFields[dlg.selectedField]
         print(yaml.dump(selectedField))
+
+  def removeField(self, cmdEvt) :
+    print("Remove citation field")
+    with ChooseFieldDialog(
+      self, Config().biblatexFields, 'Remove', self.bibLatex['entrytype']
+    ) as dlg :
+      result = dlg.ShowModal()
+      if result == wx.ID_OK :
+        print(f"Removing field {dlg.selectedField}")
+        selectedField = Config().biblatexFields[dlg.selectedField]
+        print(yaml.dump(selectedField))
+
+  def updateCiteKey(self, cmdEvt) :
+    print("Update citeKey")
+
+  def downloadPdf(self, cmdEvt) :
+    print("Download PDF")
 
 #######################################################
 # Structure the App's MainFrame

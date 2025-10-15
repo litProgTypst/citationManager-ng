@@ -2,6 +2,7 @@
 
 abstract:
   type: field (literal)
+  baseType: string
   comment: |
     This field is intended for recording abstracts in a bib file, to be 
     printed by a special bibliography style. It is not used by all standard 
@@ -9,6 +10,7 @@ abstract:
 
 addendum:
   type: field (literal)
+  baseType: string
   comment: |
     Miscellaneous bibliographic data to be printed at the end of the entry. 
     This is similar to the note field except that it is printed at the end 
@@ -16,6 +18,7 @@ addendum:
 
 afterword:
   type: list (name)
+  baseType: string
   comment: |
     The author(s) of an afterword to the work. If the author of the 
     afterword is identical to the editor and/or translator, the standard 
@@ -24,6 +27,7 @@ afterword:
 
 annotation:
   type: field (literal)
+  baseType: string
   comment: |
     This field may be useful when implementing a style for annotated 
     bibliographies. it is not used by all standard bibliography styles. 
@@ -33,6 +37,7 @@ annotation:
 
 annotator:
   type: list (name)
+  baseType: string
   comment: |
     The author(s) of annotations to the work. If the annotator is identical 
     to the editor and/or translator, the standard styles will automatically 
@@ -40,23 +45,27 @@ annotator:
 
 author:
   type: list (name)
+  baseType: string
   comment: The author(s) of the title.
 
 authortype:
   type: field (key)
+  baseType: string
   comment: |
     The type of author. This field will affect the string (if any) used to 
     introduce the author. Not used by the standard bibliography styles.
 
 bookauthor:
   type: list (name)
+  baseType: string
   comment: The author(s) of the booktitle.
 
 bookpagination:
   type: field (key)
+  baseType: string
   comment: |
     If the work is published as part of another one, this is the pagination 
-    scheme of the en- closing work, i. e., bookpagination relates to 
+    scheme of the enclosing work, i. e., bookpagination relates to 
     pagination like booktitle to title. The value of this field will affect 
     the formatting of the pages and pagetotal fields. The key should be 
     given in the singular form. Possible keys are page, column, line, 
@@ -64,6 +73,7 @@ bookpagination:
 
 booksubtitle:
   type: field (literal)
+  baseType: string
   comment: |
     The subtitle related to the booktitle. If the subtitle field refers to 
     a work which is part of a larger publication, a possible subtitle of 
@@ -71,6 +81,7 @@ booksubtitle:
 
 booktitle:
   type: field (literal)
+  baseType: string
   comment: |
     If the title field indicates the title of a work which is part of a 
     larger publication, the title of the main work is given in this field. 
@@ -78,14 +89,17 @@ booktitle:
 
 booktitleaddon:
   type: field (literal)
+  baseType: string
   comment: An annex to the booktitle, to be printed in a different font.
 
 chapter:
   type: field (literal)
+  baseType: string
   comment: A chapter or section or any other unit of a work.
 
 commentator:
   type: list (name)
+  baseType: string
   comment: |
     The author(s) of a commentary to the work. Note that this field is 
     intended for commented editions which have a commentator in addition to 
@@ -96,14 +110,17 @@ commentator:
 
 date:
   type: field (date)
+  baseType: date
   comment: The publication date. See also month and year as well as § 2.3.8.
 
 doi:
   type: field (verbatim)
+  baseType: string
   comment: The Digital Object Identifier of the work.
 
 edition:
   type: field (integer or literal)
+  baseType: string
   comment: |
     The edition of a printed publication. This must be an integer, not an 
     ordinal. Don’t say edition={First} or edition={1st} but edition={1}. 
@@ -113,6 +130,7 @@ edition:
 
 editor:
   type: list (name)
+  baseType: string
   comment: |
     The editor(s) of the title, booktitle, or maintitle, depending on the 
     entry type. Use the editortype field to specify the role if it is 
@@ -120,6 +138,7 @@ editor:
 
 editora:
   type: list (name)
+  baseType: string
   comment: |
     A secondary editor performing a different editorial role, such as 
     compiling, redacting, etc. Use the editoratype field to specify the 
@@ -127,18 +146,21 @@ editora:
 
 editorb:
   type: list (name)
+  baseType: string
   comment: |
     Another secondary editor performing a different role. Use the 
     editorbtype field to specify the role. See § 2.3.6 for further hints.
 
 editorc:
   type: list (name)
+  baseType: string
   comment: |
     Another secondary editor performing a different role. Use the 
     editorctype field to specify the role. See § 2.3.6 for further hints.
 
 editortype:
   type: field (key)
+  baseType: string
   comment: |
     The type of editorial role performed by the editor. Roles supported by 
     default are editor, compiler, founder, continuator, redactor, reviser, 
@@ -147,28 +169,33 @@ editortype:
 
 editoratype:
   type: field (key)
+  baseType: string
   comment: |
     Similar to editortype but referring to the editora field. See § 2.3.6 
     for further hints.
 
 editorbtype:
   type: field (key)
+  baseType: string
   comment: |
     Similar to editortype but referring to the editorb field. See § 2.3.6 
     for further hints.
 
 editorctype:
   type: field (key)
+  baseType: string
   comment: |
     Similar to editortype but referring to the editorc field. See § 2.3.6 
     for further hints.
 
 eid:
   type: field (literal)
+  baseType: string
   comment: The electronic identifier of an @article.
 
 entrysubtype:
   type: field (literal)
+  baseType: string
   comment: |
     This field, which is not used by the standard styles, may be used to 
     specify a subtype of an entry type. This may be useful for bibliography 
@@ -176,6 +203,7 @@ entrysubtype:
 
 eprint:
   type: field (verbatim)
+  baseType: string
   comment: |
     The electronic identifier of an online publication. This is roughly 
     comparable to a doi but specific to a certain archive, repository, 
@@ -184,6 +212,7 @@ eprint:
 
 eprintclass:
   type: field (literal)
+  baseType: string
   comment: |
     Additional information related to the resource indicated by the 
     eprinttype field. This could be a section of an archive, a path 
@@ -192,6 +221,7 @@ eprintclass:
 
 eprinttype:
   type: field (literal)
+  baseType: string
   comment: |
     The type of eprint identifier, e. g., the name of the archive, 
     repository, service, or system the eprint field refers to. See § 3.11.7 
@@ -199,6 +229,7 @@ eprinttype:
 
 eventdate:
   type: field (date)
+  baseType: date
   comment: |
     The date of a conference, a symposium, or some other event in 
     @proceedings and @inproceedings entries. This field may also be useful 
@@ -207,6 +238,7 @@ eventdate:
 
 eventtitle:
   type: field (literal)
+  baseType: string
   comment: |
     The title of a conference, a symposium, or some other event in 
     @proceedings and @inproceedings entries. This field may also be useful 
@@ -217,18 +249,21 @@ eventtitle:
 
 eventtitleaddon:
   type: field (literal)
+  baseType: string
   comment: |
     An annex to the eventtitle field. Can be used for known event acronyms, 
     for example.
 
 file:
   type: field (verbatim)
+  baseType: string
   comment: |
     A local link to a pdf or other version of the work. Not used by the 
     standard bibliography styles.
 
 foreword:
   type: list (name)
+  baseType: string
   comment: |
     The author(s) of a foreword to the work. If the author of the foreword 
     is identical to the editor and/or translator, the standard styles will 
@@ -237,6 +272,7 @@ foreword:
 
 holder:
   type: list (name)
+  baseType: string
   comment: |
     The holder(s) of a @patent, if different from the author. Not that 
     corporate holders need to be wrapped in an additional set of braces, 
@@ -245,12 +281,14 @@ holder:
 
 howpublished:
   type: field (literal)
+  baseType: string
   comment: |
     A publication notice for unusual publications which do not fit into any 
     of the common categories.
 
 indextitle:
   type: field (literal)
+  baseType: string
   comment: |
     A title to use for indexing instead of the regular title field. This 
     field may be useful if you have an entry with a title like “An 
@@ -261,6 +299,7 @@ indextitle:
 
 institution:
   type: list (literal)
+  baseType: string
   comment: |
     The name of a university or some other institution, depending on the 
     entry type. Traditional BibTeX uses the field name school for theses, 
@@ -268,6 +307,7 @@ institution:
 
 introduction:
   type: list (name)
+  baseType: string
   comment: |
     The author(s) of an introduction to the work. If the author of the 
     introduction is identical to the editor and/or translator, the standard 
@@ -276,32 +316,38 @@ introduction:
 
 isan:
   type: field (literal)
+  baseType: string
   comment: |
     The International Standard Audiovisual Number of an audiovisual work. 
     Not used by the standard bibliography styles.
 
 isbn:
   type: field (literal)
+  baseType: string
   comment: The International Standard Book Number of a book.
 
 ismn:
   type: field (literal)
+  baseType: string
   comment: |
     The International Standard Music Number for printed music such as 
     musical scores. Not used by the standard bibliography styles.
 
 isrn:
   type: field (literal)
+  baseType: string
   comment: |
     The International Standard Technical Report Number of a technical 
     report.
 
 issn:
   type: field (literal)
+  baseType: string
   comment: The International Standard Serial Number of a periodical.
 
 issue:
   type: field (literal)
+  baseType: string
   comment: |
     The issue of a journal. This field is intended for journals whose 
     individual issues are identified by a designation such as ‘Spring’ or 
@@ -312,28 +358,34 @@ issue:
 
 issuesubtitle:
   type: field (literal)
+  baseType: string
   comment: The subtitle of a specific issue of a journal or other periodical.
 
 issuetitle:
   type: field (literal)
+  baseType: string
   comment: The title of a specific issue of a journal or other periodical.
 
 iswc:
   type: field (literal)
+  baseType: string
   comment: |
     The International Standard Work Code of a musical work. Not used by the 
     standard bibliography styles.
 
 journalsubtitle:
   type: field (literal)
+  baseType: string
   comment: The subtitle of a journal, a newspaper, or some other periodical.
 
 journaltitle:
   type: field (literal)
+  baseType: string
   comment: The name of a journal, a newspaper, or some other periodical.
 
 label:
   type: field (literal)
+  baseType: string
   comment: |
     A designation to be used by the citation style as a substitute for the 
     regular label if any data required to generate the regular label is 
@@ -344,6 +396,7 @@ label:
 
 language:
   type: list (key)
+  baseType: string
   comment: |
     The language(s) of the work. Languages may be specified literally or as 
     localization keys. If localization keys are used, the prefix lang is 
@@ -351,6 +404,7 @@ language:
 
 library:
   type: field (literal)
+  baseType: string
   comment: |
     This field may be useful to record information such as a library name 
     and a call number. This may be printed by a special bibliography style 
@@ -358,6 +412,7 @@ library:
 
 location:
   type: list (literal)
+  baseType: string
   comment: |
     The place(s) of publication, i. e., the location of the publisher or 
     institution, depending on the entry type. Traditional BibTeX uses the 
@@ -368,10 +423,12 @@ location:
 
 mainsubtitle:
   type: field (literal)
+  baseType: string
   comment: The subtitle related to the maintitle. See also subtitle.
 
 maintitle:
   type: field (literal)
+  baseType: string
   comment: |
     The main title of a multi-volume book, such as Collected Works. If the 
     title or booktitle field indicates the title of a single volume which 
@@ -380,10 +437,12 @@ maintitle:
 
 maintitleaddon:
   type: field (literal)
+  baseType: string
   comment: An annex to the maintitle, to be printed in a different font.
 
 month:
   type: field (datepart)
+  baseType: integer
   comment: |
     The publication month. This must be an integer, not an ordinal or a 
     string. Don’t say month={January} but month={1}. The bibliography style 
@@ -392,6 +451,7 @@ month:
 
 nameaddon:
   type: field (literal)
+  baseType: string
   comment: |
     An addon to be printed immediately after the author name in the 
     bibliography. Not used by the standard bibliography styles. This field 
@@ -400,6 +460,7 @@ nameaddon:
 
 note:
   type: field (literal)
+  baseType: string
   comment: |
     Miscellaneous bibliographic data which does not fit into any other 
     field. The note field may be used to record bibliographic data in a 
@@ -408,6 +469,7 @@ note:
 
 number:
   type: field (literal)
+  baseType: integer
   comment: |
     The number of a journal or the volume/number of a book in a series. See 
     also issue as well as §§ 2.3.7 and 2.3.9. With @patent entries, this is 
@@ -415,12 +477,14 @@ number:
 
 organization:
   type: list (literal)
+  baseType: string
   comment: |
     The organization(s) that published a @manual or an @online resource, or 
     sponsored a conference. See also § 2.3.4.
 
 origdate:
   type: field (date)
+  baseType: date
   comment: |
     If the work is a translation, a reprint, or something similar, the 
     publication date of the original edition. Not used by the standard 
@@ -428,12 +492,14 @@ origdate:
 
 origlanguage:
   type: field (key)
+  baseType: string
   comment: |
     If the work is a translation, the language of the original work. See 
     also language.
 
 origlocation:
   type: list (literal)
+  baseType: string
   comment: |
     If the work is a translation, a reprint, or something similar, the 
     location of the original edition. Not used by the standard bibliography 
@@ -441,6 +507,7 @@ origlocation:
 
 origpublisher:
   type: list (literal)
+  baseType: string
   comment: |
     If the work is a translation, a reprint, or something similar, the 
     publisher of the original edition. Not used by the standard 
@@ -448,12 +515,14 @@ origpublisher:
 
 origtitle:
   type: field (literal)
+  baseType: string
   comment: |
     If the work is a translation, the title of the original work. Not used 
     by the standard bibliography styles. See also title.
 
 pages:
   type: field (range)
+  baseType: string
   comment: |
     One or more page numbers or page ranges. If the work is published as 
     part of another one, such as an article in a journal or a collection, 
@@ -463,19 +532,22 @@ pages:
 
 pagetotal:
   type: field (literal)
+  baseType: integer
   comment: The total number of pages of the work.
 
 pagination:
   type: field (key)
+  baseType: string
   comment: |
     The pagination of the work. The value of this field will affect the 
     formatting the postnote argument to a citation command. The key should 
     be given in the singular form. Possible keys are page, column, line, 
-    verse, section, and para- graph. See also bookpagination as well as §§ 
+    verse, section, and paragraph. See also bookpagination as well as §§ 
     2.3.10 and 3.12.3.
 
 part:
   type: field (literal)
+  baseType: string
   comment: |
     The number of a partial volume. This field applies to books only, not 
     to journals. It may be used when a logical volume consists of two or 
@@ -485,10 +557,12 @@ part:
 
 publisher:
   type: list (literal)
+  baseType: string
   comment: The name(s) of the publisher(s). See also § 2.3.4.
 
 pubstate:
   type: field (key)
+  baseType: string
   comment: |
     The publication state of the work, e. g., ‘in press’. See § 4.9.2.11 
     for known publication states. (One of - inpreparation, submitted, 
@@ -496,10 +570,12 @@ pubstate:
 
 reprinttitle:
   type: field (literal)
+  baseType: string
   comment: The title of a reprint of the work. Not used by the standard styles.
 
 series:
   type: field (literal)
+  baseType: string
   comment: |
     The name of a publication series, such as “Studies in ...”, or the 
     number of a journal series. Books in a publication series are usually 
@@ -510,6 +586,7 @@ series:
 
 shortauthor:
   type: list (name)
+  baseType: string
   comment: |
     The author(s) of the work, given in an abbreviated form. This field is 
     mainly intended for abbreviated forms of corporate authors, see § 2.3.3 
@@ -517,6 +594,7 @@ shortauthor:
 
 shorteditor:
   type: list (name)
+  baseType: string
   comment: |
     The editor(s) of the work, given in an abbreviated form. This field is 
     mainly intended for abbreviated forms of corporate editors, see § 2.3.3 
@@ -524,6 +602,7 @@ shorteditor:
 
 shorthand:
   type: field (literal)
+  baseType: string
   comment: |
     A special designation to be used by the citation style instead of the 
     usual label. If defined, it overrides the default label. See also 
@@ -531,6 +610,7 @@ shorthand:
 
 shorthandintro:
   type: field (literal)
+  baseType: string
   comment: |
     The verbose citation styles which comes with this package use a phrase 
     like “hence- forth cited as [shorthand]” to introduce shorthands on the 
@@ -540,18 +620,21 @@ shorthandintro:
 
 shortjournal:
   type: field (literal)
+  baseType: string
   comment: |
     A short version or an acronym of the journaltitle. Not used by the 
     standard bibliography styles.
 
 shortseries:
   type: field (literal)
+  baseType: string
   comment: |
     A short version or an acronym of the series field. Not used by the 
     standard bibliography styles.
 
 shorttitle:
   type: field (literal)
+  baseType: string
   comment: |
     The title in an abridged form. This field is usually not included in 
     the bibliography. It is intended for citations in author-title format. 
@@ -560,18 +643,22 @@ shorttitle:
 
 subtitle:
   type: field (literal)
+  baseType: string
   comment: The subtitle of the work.
 
 title:
   type: field (literal)
+  baseType: string
   comment: The title of the work.
 
 titleaddon:
   type: field (literal)
+  baseType: string
   comment: An annex to the title, to be printed in a different font.
 
 translator:
   type: list (name)
+  baseType: string
   comment: |
     The translator(s) of the title or booktitle, depending on the entry 
     type. If the translator is identical to the editor, the standard styles 
@@ -579,6 +666,7 @@ translator:
 
 type:
   type: field (key)
+  baseType: string
   comment: |
     The type of a manual, patent, report, or thesis. This field may also be 
     useful for the custom types listed in § 2.1.3.
@@ -591,6 +679,7 @@ type:
 
 url:
   type: field (uri)
+  baseType: string
   comment: |
     The url of an online publication. If it is not URL-escaped (no ‘%’ 
     chars), with Biber, it will be URI-escaped according to RFC 3987, that 
@@ -598,12 +687,14 @@ url:
 
 urldate:
   type: field (date)
+  baseType: date
   comment: |
     The access date of the address specified in the url field. See also § 
     2.3.8.
 
 venue:
   type: field (literal)
+  baseType: string
   comment: |
     The location of a conference, a symposium, or some other event in 
     @proceedings and @inproceedings entries. This field may also be useful 
@@ -614,20 +705,24 @@ venue:
 
 version:
   type: field (literal)
+  baseType: string
   comment: The revision number of a piece of software, a manual, etc.
 
 volume:
   type: field (literal)
+  baseType: string
   comment: The volume of a multi-volume book or a periodical. See also part.
 
 volumes:
   type: field (literal)
+  baseType: integer
   comment: |
     The total number of volumes of a multi-volume work. Depending on the 
     entry type, this field refers to title or maintitle.
 
 year:
   type: field (literal)
+  baseType: integer
   comment: The year of publication. See also date and § 2.3.8.
 
 #
@@ -639,6 +734,7 @@ year:
 
 crossref:
   type: field (entry key)
+  baseType: string
   comment: |
     This field holds an entry key for the cross-referencing feature. Child 
     entries with a crossref field inherit data from the parent entry 
@@ -659,6 +755,7 @@ crossref:
 
 entryset:
   type: field (separated values)
+  baseType: string
   comment: |
     This field is specific to entry sets. See § 3.11.5 for details. This 
     field is consumed by the backend processing and does not appear in the 
@@ -666,6 +763,7 @@ entryset:
 
 execute:
   type: field (code)
+  baseType: string
   comment: |
     A special field which holds arbitrary TeX code to be executed whenever 
     the data of the respective entry is accessed. This may be useful to 
@@ -677,6 +775,7 @@ execute:
 
 gender:
   type: 'field (Pattern matching one of sf, sm, sn, pf, pm, pn, pp)'
+  baseType: string
   comment: |
     The gender of the author or the gender of the editor, if there is no 
     author. The following identifiers are supported: sf (feminine singular, 
@@ -694,6 +793,7 @@ gender:
 
 langid:
   type: field (identifier)
+  baseType: string
   comment: |
     The language id of the bibliography entry. The alias hyphenation is 
     provided for backwards compatibility. The identifier must be a language 
@@ -711,6 +811,7 @@ langid:
 
 langidopts:
   type: field (literal)
+  baseType: string
   comment: |
     For polyglossia users, allows per-entry language specific options. The 
     literal value of this field is passed to polyglossia’s language 
@@ -728,6 +829,7 @@ langidopts:
     </pre>
 ids:
   type: field (separated list of entrykeys)
+  baseType: string
   comment: |
     Citation key aliases for the main citation key. An entry may be cited 
     by any of its aliases and Biblatex will treat the citation as if it had 
@@ -738,6 +840,7 @@ ids:
 
 indexsorttitle:
   type: field (literal)
+  baseType: string
   comment: |
     The title used when sorting the index. In contrast to indextitle, this 
     field is used for sorting only. The printed title in the index is the 
@@ -755,6 +858,7 @@ indexsorttitle:
 
 keywords:
   type: field (separated values)
+  baseType: string
   comment: |
     A separated list of keywords. These keywords are intended for the 
     bibliography filters (see §§ 3.6.2 and 3.11.4), they are usually not 
@@ -763,6 +867,7 @@ keywords:
 
 options:
   type: field (separated key = value options)
+  baseType: string
   comment: |
     A separated list of entry options in key = value notation. This field 
     is used to set options on a per-entry basis. See § 3.1.3 for details. 
@@ -771,6 +876,7 @@ options:
 
 presort:
   type: field (string)
+  baseType: string
   comment: |
     A special field used to modify the sorting order of the bibliography. 
     This field is the first item the sorting routine considers when sorting 
@@ -782,6 +888,7 @@ presort:
 
 related:
   type: field (separated values)
+  baseType: string
   comment: |
     Citation keys of other entries which have a relationship to this entry. 
     The relationship is specified by the relatedtype field. Please refer to 
@@ -792,6 +899,7 @@ related:
 
 relatedtype:
   type: field (identifier)
+  baseType: string
   comment: |
     An identifier which specified the type of relationship for the keys 
     listed in the related field. The identifier is a localized bibliography 
@@ -802,12 +910,14 @@ relatedtype:
 
 relatedstring:
   type: field (literal)
+  baseType: string
   comment: |
     A field used to override the bibliography string specified by 
     relatedtype. Please refer to § 3.4 for further details.
 
 sortkey:
   type: field (literal)
+  baseType: string
   comment: |
     A field used to modify the sorting order of the bibliography. Think of 
     this field as the master sort key. If present, Biblatex uses this field 
@@ -817,6 +927,7 @@ sortkey:
 
 sortname:
   type: list (name)
+  baseType: string
   comment: |
     A name or a list of names used to modify the sorting order of the 
     bibliography. If present, this list is used instead of author or editor 
@@ -826,6 +937,7 @@ sortname:
 
 sortshorthand:
   type: field (literal)
+  baseType: string
   comment: |
     Similar to sortkey but used in the list of shorthands. If present, 
     Biblatex uses this field instead of shorthand when sorting the list of 
@@ -835,6 +947,7 @@ sortshorthand:
 
 sorttitle:
   type: field (literal)
+  baseType: string
   comment: |
     A field used to modify the sorting order of the bibliography. If 
     present, this field is used instead of the title field when sorting the 
@@ -847,6 +960,7 @@ sorttitle:
 
 sortyear:
   type: field (literal)
+  baseType: integer
   comment: |
     A field used to modify the sorting order of the bibliography. If 
     present, this field is used instead of the year field when sorting the 
@@ -855,6 +969,7 @@ sortyear:
 
 xdata:
   type: field (separated list of entrykeys)
+  baseType: string
   comment: |
     This field inherits data from one or more @xdata entries. Conceptually, 
     the xdata field is related to crossref and xref: crossref establishes a 
@@ -867,6 +982,7 @@ xdata:
 
 xref:
   type: field (entry key)
+  baseType: string
   comment: |
     This field is an alternative cross-referencing mechanism. It differs 
     from crossref in that the child entry will not inherit any data from 
@@ -892,30 +1008,35 @@ xref:
 
 'name[a–c]':
   type: list (name)
+  baseType: string
   comment: |
     Custom lists for special bibliography styles. Not used by the standard 
     bibliography styles.
 
 'name[a–c]type':
   type: field (key)
+  baseType: string
   comment: |
     Similar to authortype and editortype but referring to the fields 
     name[a–c]. Not used by the standard bibliography styles.
 
 'list[a–f]':
   type: list (literal)
+  baseType: string
   comment: |
     Custom lists for special bibliography styles. Not used by the standard 
     bibliography styles.
 
 'user[a–f]':
   type: field (literal)
+  baseType: string
   comment: |
     Custom fields for special bibliography styles. Not used by the standard 
     bibliography styles.
 
 'verb[a–c]':
   type: field (literal)
+  baseType: string
   comment: |
     Similar to the custom fields above except that these are verbatim 
     fields. Not used by the standard bibliography styles.
@@ -933,6 +1054,7 @@ xref:
 
 address:
   type: list (literal)
+  baseType: string
   comment: |
     An alias for location, provided for BibTeX compatibility. Traditional 
     BibTeX uses the slightly misleading field name address for the place of 
@@ -941,40 +1063,47 @@ address:
 
 annote:
   type: field (literal)
+  baseType: string
   comment: |
     An alias for annotation, provided for jurabib compatibility. See § 
     2.2.2.
 
 archiveprefix:
   type: field (literal)
+  baseType: string
   comment: |
     An alias for eprinttype, provided for arXiv compatibility. See §§ 2.2.2 
     and 3.11.7.
 
 journal:
   type: field (literal)
+  baseType: string
   comment: |
     An alias for journaltitle, provided for BibTeX compatibility. See § 
     2.2.2.
 
 key:
   type: field (literal)
+  baseType: string
   comment: |
     An alias for sortkey, provided for BibTeX compatibility. See § 2.2.3.
 
 pdf:
   type: field (verbatim)
+  baseType: string
   comment: |
     An alias for file, provided for JabRef compatibility. See § 2.2.2.
 
 primaryclass:
   type: field (literal)
+  baseType: string
   comment: |
     An alias for eprintclass, provided for arXiv compatibility. See §§ 
     2.2.2 and 3.11.7.
 
 school:
   type: list (literal)
+  baseType: string
   comment: |
     An alias for institution, provided for BibTeX compatibility. The 
     institution field is used by traditional BibTeX for technical reports 
@@ -988,10 +1117,12 @@ school:
 
 author-editor:
   type: field (choice)
+  baseType: string
   comment: Either author or editor but not both.
 
 year-date:
   type: field (choice)
+  baseType: string
   comment: Either year or data but not both.
 
 
@@ -1001,6 +1132,7 @@ year-date:
 
 citekey:
   type: field (literal)
+  baseType: string
   comment: |
     The citation identifier use by the \cite commands to select the 
     correct reference. This is a local extension to the BibLaTeX 
@@ -1008,13 +1140,16 @@ citekey:
 
 entrytype:
   type: field (literal)
+  baseType: string
   comment: |
     The entry type. This is a local extension to the BibLaTeX format.
 
 creationid:
   type: field (number)
+  baseType: integer
   comment: |
     The original Aigaion database primary key. It can be used to 
     identify the order in which the references were added. The order of 
     addition of new references can now be determined by the git archive 
     system.
+
