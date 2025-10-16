@@ -1,11 +1,13 @@
 
 import argparse
 import copy
+from pathlib import Path
 import re
 import sys
 import yaml
 
 import wx
+import wx.grid as wxgrid
 import wx.propgrid as wxpg
 
 from cmTools.config import addConfigurationArgs, Config
@@ -228,10 +230,14 @@ class CitationEditor(PropertyEditor):
 # ADD a textCtrl which will be used as THE url to download and add a
 # choose selected button to transfer the selected url to this text ctrl.
 
-class ChooseUrlDialog(wx.Dialog) :
+# ADD File chooser dialog for archiving local PDF files
+
+class ArchivePDFDialog(wx.Dialog) :
   def __init__(self, parent, urls, citeKey) :
-    self.urls = urls
-    self.citeKey = citeKey
+    self.urls         = urls
+    self.citeKey      = citeKey
+    self.selectedPath = None
+    self.selectedUrl  = None
 
     wx.Dialog.__init__(self, parent, -1, f"Download PDF for {citeKey}")
 
@@ -240,16 +246,41 @@ class ChooseUrlDialog(wx.Dialog) :
     self.theChoice = wx.ListBox(
       self, choices=urls, name="urls", style=wx.LB_SINGLE
     )
-    vBox.Add(self.theChoice)
+    vBox.Add(self.theChoice, 2, wx.EXPAND)
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
-    hBoxButtons.Add(wx.Button(
-      self, wx.ID_OK, label = "Download PDF")
+    selectUrlButton = wx.Button(
+      self, wx.ID_OK, label = "Download selected PDF"
     )
+    selectUrlButton.Bind(wx.EVT_BUTTON, self.selectUrl)
+    hBoxButtons.Add(selectUrlButton)
+    selectFileButton = wx.Button(self, -1, label="Archive local file")
+    selectFileButton.Bind(wx.EVT_BUTTON, self.selectFile)
+    hBoxButtons.Add(selectFileButton)
     hBoxButtons.Add(wx.Button(self, wx.ID_CANCEL, label = "Cancel"))
     vBox.Add(hBoxButtons)
 
     self.SetSizer(vBox)
+
+  def selectUrl(self, cmdEvt) :
+    print(f"Select URL ({wx.ID_OK})")
+    self.selectedUrl = self.theChoice.GetString(
+      self.theChoice.GetSelection()
+    )
+    self.EndModal(wx.ID_OK)
+
+  def selectFile(self, cmdEvt) :
+    print("Select File (2)")
+    with wx.FileDialog(
+      self, "Archive a local PDF file",
+      defaultDir=str(Path(Config()['pdfDir']).expanduser()),
+      wildcard="PDF files (*.pdf)|*.pdf",
+      style=wx.FD_SAVE
+    ) as dlg :
+      if dlg.ShowModal() == wx.ID_OK :
+        self.selectedPath = dlg.GetPath()
+        print(f"Select file: {self.selectedPath}")
+    self.EndModal(2)
 
 #######################################################
 # Choose cite key dialog
@@ -272,19 +303,28 @@ class UpdateCiteKeyDialog(wx.Dialog) :
 
     vBox = wx.BoxSizer(wx.VERTICAL)
 
+    self.grid = grid = wxgrid.Grid(self)
+    grid.CreateGrid(3,1)
+    grid.SetColLabelValue(0, "")
+    grid.SetColLabelSize(5)
+
     authorSurnames = []
     for anAuthor in authors :
       authorSurnames.append(guessSurname(anAuthor))
     authorSurnames = ' '.join(authorSurnames)
 
-    self.theAuthorPart = wx.TextCtrl(self, -1, camelCase(authorSurnames))
-    vBox.Add(self.theAuthorPart)
+    grid.SetRowLabelValue(0, "Authors")
+    grid.SetCellValue(0,0, camelCase(authorSurnames))
 
-    self.theYearPart = wx.TextCtrl(self, -1, year)
-    vBox.Add(self.theYearPart)
+    grid.SetRowLabelValue(1, "Year")
+    grid.SetCellValue(1,0, year)
 
-    self.theTitlePart = wx.TextCtrl(self, -1, camelCase(title))
-    vBox.Add(self.theTitlePart, 2, flag=wx.EXPAND)
+    grid.SetRowLabelValue(2, "Title")
+    grid.SetCellValue(2,0, camelCase(title))
+
+    grid.AutoSize()
+
+    vBox.Add(grid, 1, wx.EXPAND)
 
     hBoxButtons = wx.BoxSizer(wx.HORIZONTAL)
     hBoxButtons.Add(wx.Button(
@@ -294,6 +334,14 @@ class UpdateCiteKeyDialog(wx.Dialog) :
     vBox.Add(hBoxButtons)
 
     self.SetSizer(vBox)
+    self.Fit()
+
+  def getCiteKey(self) :
+    citeKey = []
+    citeKey.append(self.grid.GetCellValue(0,0))
+    citeKey.append(self.grid.GetCellValue(1,0))
+    citeKey.append(self.grid.GetCellValue(2,0))
+    return ''.join(citeKey)
 
 #######################################################
 # Choose field dialog
@@ -584,7 +632,8 @@ class CitationEditorDialog(wx.Dialog) :
     year    = self.bibLatex['year']
     title   = self.bibLatex['title']
     with UpdateCiteKeyDialog(self, authors, year, title) as dlg :
-      dlg.ShowModal()
+      if dlg.ShowModal() == wx.ID_OK :
+        print(dlg.getCiteKey())
 
   def downloadPdf(self, cmdEvt) :
     print("Download PDF")
@@ -593,8 +642,15 @@ class CitationEditorDialog(wx.Dialog) :
       urls = self.bibLatex['url']
     if urls :
       citeKey = self.bibLatex['citekey']
-      with ChooseUrlDialog(self, urls, citeKey) as dlg :
-        dlg.ShowModal()
+      with ArchivePDFDialog(self, urls, citeKey) as dlg :
+        result = dlg.ShowModal()
+        print(f"download PDF: {result}")
+        print(dlg.selectedUrl)
+        print(dlg.selectedPath)
+        if result == wx.ID_OK and dlg.selectedUrl :
+          print(f"selected url: {dlg.selectedUrl}")
+        elif result == 2 and dlg.selectedPath :
+          print(f"selected path: {dlg.selectedPath}")
 
 #######################################################
 # Structure the App's MainFrame

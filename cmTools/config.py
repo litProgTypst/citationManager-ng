@@ -106,6 +106,11 @@ class Config(object) :
     self.newRefsDir = Path(self.config['newRefsDir']).expanduser()
     self.newRefsDir.mkdir(parents=True, exist_ok=True)
 
+    if 'pdfDir' not in self.config :
+      self.config['pdfDir'] = "~/Downloads/PDF"
+
+    Path(self.config['pdfDir']).expanduser().mkdir(exist_ok=True)
+
     if 'entryTypeMapping' not in self.config :
       self.config['entryTypeMapping'] = {}
 
