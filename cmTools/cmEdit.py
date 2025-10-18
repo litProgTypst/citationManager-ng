@@ -7,12 +7,13 @@ import wx
 
 from cmTools.config import addConfigurationArgs, Config
 from cmTools.bibLaTeXYaml import loadBibLatex
-from cmTools.wxDialogs import PersonEditorDialog, CitationEditorDialog
+from cmTools.wxPeopleDialogs import PersonEditorDialog
+from cmTools.wxCitationDialogs import CitationEditorDialog
 
 #######################################################
 # TODO
 
-# Add "AddFieldDialog" to add an extra field to an existing
+# TEST "AddFieldDialog" to add an extra field to an existing
 # propertyEditor.
 
 # Ensure entryType and docType are both choice of known types

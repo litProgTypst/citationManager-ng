@@ -1,5 +1,6 @@
 
 import copy
+from datetime import date
 import yaml
 
 import wx
@@ -23,6 +24,18 @@ class Colour :
 
   aqua      = wx.Colour(0,   255, 255)
   lightBlue = wx.Colour(0,   128, 255)
+
+docTypes = [
+  "allowed",
+  "alumni",
+  "owned",
+  "public",
+  "purchased",
+  # "scanned20180621",
+  # "uncatalogued",
+  "unknown",
+  "workingCopies"
+]
 
 #######################################################
 # Define the generic propery grid editor
@@ -57,8 +70,21 @@ class PropertyEditor(wx.Panel) :
     )
     pg.Bind(wxpg.EVT_PG_CHANGED, self.OnPropGridChange)
 
+    biblatexFields = Config().biblatexFields
     for aKey, aValue in properties.items() :
-      self.addField(aKey, aValue, None, propertyGrid=pg)
+      if aKey in biblatexFields :
+        selectedField = biblatexFields[aKey]
+        # print(yaml.dump(selectedField))
+
+        self.addField(
+          aKey, aValue,
+          selectedField['structure'],
+          selectedField['baseType'],
+          propertyGrid=pg
+        )
+      else :
+        print(f"aKey = {aKey} is NOT a known biblatexField")
+        print("  ignoring this key/value")
 
     return pg
 
@@ -74,8 +100,8 @@ class PropertyEditor(wx.Panel) :
       aKey = p.GetName()
       aValue = p.GetValueAsString()
       print(f"CHANGED {aKey} = {aValue}")
-      print(yaml.dump(self.properties))
       self.properties[aKey] = aValue
+      print(yaml.dump(self.properties))
 
   def getUpdatedProperties(self) :
     return self.properties
@@ -83,17 +109,85 @@ class PropertyEditor(wx.Panel) :
   def saveChanges(self) :
     return {}
 
-  def addField(self, fieldLabel, fieldValue, fieldType, propertyGrid=None) :
+  def addField(
+    self, fieldLabel, fieldValue, fieldStructure, fieldType, propertyGrid=None
+  ) :
+    print(f"WORKING on: {fieldLabel} = {fieldValue} ({fieldStructure};{fieldType})")  # noqa
+
+    # we have two types of fiedStructure :
+    #  field (one time) and list (many items of the same type)
+    #
+    # we have five fieldType(s) :
+    #  date, integer, string, docType, entrytype
+
+    # Ensure entryType and docType are both choice of known types
+
+    # if fieldLabel == 'entryType' :
+    # elif fieldLabel == 'docType' :
+
     if not propertyGrid :
       propertyGrid = self.mainPropertyGrid
+
+    if not fieldValue  :
+      if fieldStructure == 'list' :
+        fieldValue = []
+      else :
+        if fieldType == 'string' :
+          fieldValue = ""
+        elif fieldType == 'integer' :
+          fieldValue = 0
+        elif fieldType == 'date' :
+          fieldValue = date.today()
+        elif fieldType == 'docType' :
+          fieldValue = 'unknown'
+        elif fieldType == 'entrytype' :
+          fieldValue = 'article'
+        else :
+          print(f"UNKNOWN fieldType : {fieldType}")
+
     if isinstance(fieldValue, list) :
+      if fieldType == 'string' :
+        pass
+      elif fieldType == 'integer' :
+        print("THERE IS NO ArrayIntegerProperty!")
+      elif fieldType == 'date' :
+        print("THERE IS NO ArrayDateProperty!")
+      elif fieldType == 'docType' :
+        print("THERE IS NO ArrayDocTypeProperty!")
+      elif fieldType == 'entrytype' :
+        print("THERE IS NO ArrayEntryTypeProperty!")
+      else :
+          print(f"UNKNOWN fieldType : {fieldType}")
+      print("  using ArrayStringProperty instead")
       asp = wxpg.ArrayStringProperty(fieldLabel, value=fieldValue)
       asp.SetAttribute(wxpg.PG_ARRAY_DELIMITER, ';')
       propertyGrid.Append(asp)
     else :
-      propertyGrid.Append(
-        wxpg.StringProperty(fieldLabel, value=str(fieldValue))
-      )
+      aProperty = wxpg.StringProperty(fieldLabel, value=str(fieldValue))
+      if fieldType == 'string' :
+        pass
+      elif fieldType == 'integer' :
+        aProperty = wxpg.IntProperty(fieldLabel, value=int(fieldValue))
+      elif fieldType == 'date' :
+        aProperty = wxpg.DateProperty(fieldLabel, value=fieldValue)
+      elif fieldType == 'docType' :
+        if fieldValue in docTypes :
+          theChoices = wxpg.PGChoices(docTypes)
+          theChoice  = theChoices.GetValuesForStrings([fieldValue])[0]
+          aProperty  = wxpg.EnumProperty(
+            fieldLabel, fieldType, theChoices, theChoice
+          )
+      elif fieldType == 'entrytype' :
+        entryTypes = sorted(Config().biblatexTypes.keys())
+        if fieldValue in entryTypes :
+          theChoices = wxpg.PGChoices(entryTypes)
+          theChoice  = theChoices.GetValuesForStrings([fieldValue])[0]
+          aProperty  = wxpg.EnumProperty(
+            fieldLabel, fieldType, theChoices, theChoice
+          )
+      else :
+        print(f"UNKNOWN fieldType : {fieldType}")
+      propertyGrid.Append(aProperty)
     self.Show()
 
   def removeField(self, fieldLabel, propertyGrid=None) :

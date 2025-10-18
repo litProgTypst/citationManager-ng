@@ -8,7 +8,7 @@ article:
     title in addition to the main title of the periodical, it goes in the 
     issuetitle field. Note that editor and related fields refer to the 
     journal while translator and related fields refer to the article.
-  requiredFields: citekey, entrytype, author, title, journaltitle, year-date
+  requiredFields: citekey, docType, entrytype, author, title, journaltitle, year-date
   usefulFields: |
     volume, number, eid, issue, month, pages, version, note, issn,
     pubstate, doi, eprint, url, urldate
@@ -28,7 +28,7 @@ book:
     credit for the work as a whole. This entry type also covers the
     function of the @inbook type of traditional BibTeX, see § 2.3.1 for
     details.
-  requiredFields: citekey, entrytype, author, title, year-date
+  requiredFields: citekey, docType, entrytype, author, title, year-date
   usefulFields: |
     editor, subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -48,7 +48,7 @@ mvbook:
     A multi-volume @book. For backwards compatibility, multi-volume books 
     are also supported by the entry type @book. However, it is advisable to 
     make use of the dedicated entry type @mvbook.
-  requiredFields: citekey, entrytype, author, title, year-date
+  requiredFields: citekey, docType, entrytype, author, title, year-date
   usefulFields: |
     editor, subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -67,7 +67,7 @@ inbook:
     A part of a book which forms a self-contained unit with its own title. 
     Note that the profile of this entry type is different from standard 
     BibTeX, see § 2.3.1.
-  requiredFields: citekey, entrytype, author, title, booktitle, year-date
+  requiredFields: citekey, docType, entrytype, author, title, booktitle, year-date
   usefulFields: |
     editor, subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -87,7 +87,7 @@ bookinbook:
     This type is similar to @inbook but intended for works originally 
     published as a stand-alone book. A typical example are books reprinted 
     in the collected works of an author.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -103,7 +103,7 @@ suppbook:
     generic title only. Style guides may require such items to be formatted 
     differently from other @inbook items. The standard styles will treat 
     this entry type as an alias for @inbook.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -114,7 +114,7 @@ booklet:
     A book-like work without a formal publisher or sponsoring institution. 
     Use the field howpublished to supply publishing information in free 
     format, if applicable. The field type may be useful as well.
-  requiredFields: citekey, entrytype, author-editor, title, year-date
+  requiredFields: citekey, docType, entrytype, author-editor, title, year-date
   usefulFields: |
     subtitle, type, note, location, pagetotal,
     pubstate, doi, eprint, url, urldate
@@ -130,7 +130,7 @@ collection:
     A single-volume collection with multiple, self-contained contributions 
     by distinct authors which have their own title. The work as a whole has 
     no overall author but it will usually have an editor.
-  requiredFields: citekey, entrytype, editor, title, year-date
+  requiredFields: citekey, docType, entrytype, editor, title, year-date
   usefulFields: |
     subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -151,7 +151,7 @@ mvcollection:
     collections are also supported by the entry type @collection. 
     However, it is advisable to make use of the dedicated entry type 
     @mvcollection.
-  requiredFields: citekey, entrytype, editor, title, year-date
+  requiredFields: citekey, docType, entrytype, editor, title, year-date
   usefulFields: |
     subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -169,7 +169,7 @@ incollection:
     A contribution to a collection which forms a self-contained unit with a 
     distinct author and title. The author refers to the title, the editor 
     to the booktitle, i. e., the title of the collection.
-  requiredFields: citekey, entrytype, author, title, booktitle, year-date
+  requiredFields: citekey, docType, entrytype, author, title, booktitle, year-date
   usefulFields: |
     subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -189,7 +189,7 @@ suppcollection:
     Supplemental material in a @collection. This type is similar to 
     @suppbook but related to the @collection entry type. The standard 
     styles will treat this entry type as an alias for @incollection.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -199,7 +199,7 @@ manual:
   comment: |
     Technical or other documentation, not necessarily in printed form. The 
     author or editor is omissible in terms of § 2.3.2.
-  requiredFields: citekey, entrytype, author-editor, title, year-date
+  requiredFields: citekey, docType, entrytype, author-editor, title, year-date
   usefulFields: |
     subtitle, type, note, location, pagetotal,
     pubstate, doi, eprint, url, urldate
@@ -217,7 +217,7 @@ misc:
     Use the field howpublished to supply publishing information in free 
     format, if applicable. The field type may be useful as well. author, 
     editor, and year are omissible in terms of § 2.3.2.
-  requiredFields: citekey, entrytype, author-editor, title, year-date
+  requiredFields: citekey, docType, entrytype, author-editor, title, year-date
   usefulFields: []
   optionalFields: |
     subtitle, titleaddon, language, howpublished,
@@ -235,7 +235,7 @@ online:
     support the url field. For example, when adding an article from an 
     online journal, it may be preferable to use the @article type and its 
     url field.
-  requiredFields: citekey, entrytype, author, title, year-date, url, urldate
+  requiredFields: citekey, docType, entrytype, author, title, year-date, url, urldate
   useFulFields: []
   optionalFields: |
     editor, subtitle, titleaddon, language, version, note,
@@ -250,7 +250,7 @@ patent:
     field to indicate the scope of the patent, if different from the scope 
     implied by the type. Note that the location field is treated as a key 
     list with this entry type, see § 2.2.1 for details.
-  requiredFields: citekey, entrytype, author, title, number, year-date
+  requiredFields: citekey, docType, entrytype, author, title, number, year-date
   usefulFields: doi, eprint, url, urldate
   optionalFields: |
     holder, subtitle, titleaddon, type, version,
@@ -266,7 +266,7 @@ periodical:
     the issue has its own title in addition to the main title of the 
     periodical, it goes in the issuetitle field. The editor is omissible in 
     terms of § 2.3.2.
-  requiredFields: citekey, entrytype, editor, title, year-date
+  requiredFields: citekey, docType, entrytype, editor, title, year-date
   usefulFields: |
     volume, number, eid, issue, month, pages, version, note, issn,
     pubstate, doi, eprint, url, urldate
@@ -289,7 +289,7 @@ suppperiodical:
     such items to be formatted differently from articles in the strict 
     sense of the word. The standard styles will treat this entry type as an 
     alias for @article.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -300,7 +300,7 @@ proceedings:
     A single-volume conference proceedings. This type is very similar to 
     @collection. It supports an optional organization field which holds the 
     sponsoring institution. The editor is omissible in terms of § 2.3.2.
-  requiredFields: citekey, entrytype, title, year-date
+  requiredFields: citekey, docType, entrytype, title, year-date
   usefulFields: |
     subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -320,7 +320,7 @@ mvproceedings:
     multi-volume proceedings are also supported by the entry type 
     @proceedings. However, it is advisable to make use of the dedicated 
     entry type @mvproceedings
-  requiredFields: citekey, entrytype, title, year-date
+  requiredFields: citekey, docType, entrytype, title, year-date
   usefulFields: |
     subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -337,7 +337,7 @@ inproceedings:
   comment: |
     An article in a conference proceedings. This type is similar to 
     @incollection. It supports an optional organization field.
-  requiredFields: citekey, entrytype, author, title, booktitle, year-date
+  requiredFields: citekey, docType, entrytype, author, title, booktitle, year-date
   usefulFields: |
     subtitle, volume, part, edition, volumes, series,
     number, note, publisher, location, isbn, doi, eprint, url, urldate
@@ -357,7 +357,7 @@ reference:
     dictionary. This is a more specific variant of the generic @collection 
     entry type. The standard styles will treat this entry type as an alias 
     for @collection.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -370,7 +370,7 @@ mvreference:
     multi-volume refer- ences are also supported by the entry type 
     @reference. However, it is advisable to make use of the dedicated entry 
     type @mvreference.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -381,7 +381,7 @@ inreference:
     An article in a work of reference. This is a more specific variant of 
     the generic @incollection entry type. The standard styles will treat 
     this entry type as an alias for @incollection.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -394,7 +394,7 @@ report:
     type of report. The sponsoring institution goes in the institution 
     field.
   requiredFields: |
-    citekey, entrytype, author, title, type, institution, year-date
+    citekey, docType, entrytype, author, title, type, institution, year-date
   usefulFields: |
     subtitle, type, note, location, pagetotal,
     pubstate, doi, eprint, url, urldate
@@ -408,7 +408,7 @@ report:
 set:
   comment: |
     An entry set. This entry type is special, see § 3.11.5 for details.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -420,7 +420,7 @@ thesis:
     requirements for a degree. Use the type field to specify the type of 
     thesis.
   requiredFields: |
-    citekey, entrytype, author, title, type, institution, year-date
+    citekey, docType, entrytype, author, title, type, institution, year-date
   usefulFields: eprint, url, urldate
   optionalFields: |
     subtitle, titleaddon, language, note, location,
@@ -435,7 +435,7 @@ unpublished:
     published, such as a manuscript or the script of a talk. Use the fields 
     howpublished and note to supply additional information in free format, 
     if applicable.
-  requiredFields: citekey, entrytype, author, title, year-date
+  requiredFields: citekey, docType, entrytype, author, title, year-date
   usefulFields: eprint, url, urldate
   optionalFields: |
     subtitle, titleaddon, language, howpublished,
@@ -450,7 +450,7 @@ xdata:
     inherited by other entries using the xdata field. Entries of this type 
     only serve as data containers; they may not be cited or added to the 
     bibliography. See § 3.11.6 for details.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -460,7 +460,7 @@ custom[a–f]:
   comment: |
     Custom types for special bibliography styles. Not used by the standard 
     styles.
-  requiredFields: citekey, entrytype
+  requiredFields: citekey, docType, entrytype
   usefulFields: []
   optionalFields: []
   aliases:
@@ -663,7 +663,7 @@ review:
 software:
   comment: Computer software.
   requiredFields: |
-    citekey, entrytype, howpublished, author, title, year-date, url, urldate
+    citekey, docType, entrytype, howpublished, author, title, year-date, url, urldate
   usefulFields: []
   optionalFields: |
     subtitle, titleaddon, language, editor,

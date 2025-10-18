@@ -3,8 +3,7 @@
 import wx
 
 from cmTools.config import Config
-from cmTools.wxEditors import PersonEditor
-from cmTools.wxEditors import Colour
+from cmTools.wxEditors import PersonEditor, Colour
 
 #######################################################
 # Choose field dialog
@@ -66,7 +65,7 @@ class ChooseFieldDialog(wx.Dialog) :
       theType = "USEFUL"
       theColor = Colour.lightBlue
     theComment = ' '.join(theField['comment'].splitlines())
-    theFieldType = f"{theType}--{theField['structure']}--{theField['type']}"
+    theFieldType = f"{theType}--{theField['structure']}--{theField['type']}--{theField['baseType']}"  # noqa
     self.theComment.SetLabel(
       f"{theComment}\t[{theFieldType}]"
     )

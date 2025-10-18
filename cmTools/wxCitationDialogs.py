@@ -12,8 +12,8 @@ from cmTools.bibLaTeXAuthors import createPersonRoleList, getPersonRole, \
   getPossiblePeopleFromName, guessAuthorBiblatex, loadAuthorBiblatex, \
   guessSurname
 
-from cmTools.wxEditors import Colour, PersonEditor, CitationEditor
-from cmTools.wxPeopleDialogs import ChooseFieldDialog
+from cmTools.wxEditors import Colour, CitationEditor
+from cmTools.wxPeopleDialogs import ChooseFieldDialog, PersonEditorDialog
 
 #######################################################
 # Choose URL Dialog
@@ -298,6 +298,13 @@ class CitationEditorDialog(wx.Dialog) :
         selectedField = Config().biblatexFields[dlg.selectedField]
         print(yaml.dump(selectedField))
 
+        self.citationEditor.addField(
+          selectedField['biblatex'][0],
+          None,
+          selectedField['structure'],
+          selectedField['baseType']
+        )
+
   def removeField(self, cmdEvt) :
     print("Remove citation field")
     with ChooseFieldDialog(
@@ -308,6 +315,10 @@ class CitationEditorDialog(wx.Dialog) :
         print(f"Removing field {dlg.selectedField}")
         selectedField = Config().biblatexFields[dlg.selectedField]
         print(yaml.dump(selectedField))
+
+        self.citationEditor.removeField(
+          selectedField['biblatex'][0],
+        )
 
   def updateCiteKey(self, cmdEvt) :
     print("Update citeKey")

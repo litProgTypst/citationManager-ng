@@ -1,5 +1,6 @@
 newRefs
 remoteWiki
+remoteRefs
 .pdm-python
 pdm.lock
 tmp

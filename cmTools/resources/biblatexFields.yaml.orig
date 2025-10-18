@@ -1138,9 +1138,15 @@ citekey:
     correct reference. This is a local extension to the BibLaTeX 
     format.
 
+docType:
+  type: field (litteral)
+  baseType: docType
+  comment: |
+    The document type. This is a local extension to the BibLaTeX format.
+
 entrytype:
   type: field (literal)
-  baseType: string
+  baseType: entrytype
   comment: |
     The entry type. This is a local extension to the BibLaTeX format.
 
