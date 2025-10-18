@@ -5,3 +5,5 @@
 
 fusermount -u remoteWiki
 
+fusermount -u remoteRefs
+

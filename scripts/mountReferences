@@ -4,8 +4,11 @@
 # machine using sshFS
 
 mkdir -p remoteWiki
+mkdir -p remoteRefs
 
 useKeyPLabs
 
 sshfs plabs@notebook.perceptisys.co.uk:/data/plabs/tiddlyserver/wikis/references remoteWiki
+
+sshfs plabs@notebook.perceptisys.co.uk:/data/references remoteRefs
 
